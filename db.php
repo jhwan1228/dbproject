@@ -3,6 +3,8 @@
 $connection = mysqli_connect('localhost', 'root', 'root');
 
 
+//hi
+
 if (!$connection)
 {
     die("Database connection failed" . mysqli_error());
