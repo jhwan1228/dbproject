@@ -19,29 +19,31 @@ sadmin html goes here
 		
 		<meta charset="utf-8">
 		<title>CCTV</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<link rel = "stylesheet" href = "style.css" />
+		<!--link rel = "stylesheet" href = "style.css" /-->
 
 	</head>
 
 	<body>
 		
-		<nav class = "nav navbar-default">
+		<nav class = "nav navbar-inverse">
 			<div class = "container-fluid">
-				<div class = "navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
-        				<span class="sr-only">Toggle navigation</span>
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>
-      				</button>
-						<a class = "navbar-brand" href="logout.php">Logout</a>
-				</div>
 				<div class="collapse navbar-collapse" id=".navbar-collapse">
+					<ul class = "nav navbar-nav">
+						<li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as <?php echo $_SESSION['username']; ?> <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a href="logout.php">Logout</a></li>
+				          </ul>
+				        </li>
+						
+					</ul>
+
 					<ul class = "nav navbar-nav navbar-right">
+						<li><a href = "home.php">Home</a></li>
 						<li><a href = "admin.php">Admin</a></li>
-						<li><a href = "#" style = "border-bottom: 3px solid #d200ff !important;">CCTV</a></li>
+						<li class = "active"><a href = "#" style = "border-bottom: 3px solid #d200ff !important;">CCTV</a></li>
 						<li><a href = "location.php">Location</a></li>
 						<li><a href = "#">Video</a></li>
 						<li><a href = "#">Metalog</a></li>
@@ -52,36 +54,29 @@ sadmin html goes here
 		<br>
 		
 
-		<div class = "container">
-		<p>Welcome <?php echo $_SESSION['username']; ?>!</p>
-		<h1>CCTV</h1>
-		</div>
 
 		<div class = "container">
 
 		<h2>Create CCTV</h2>
 
 
-			
-		
-
 		<form class="form-horizontal" action = "create_cctv.php" method = "post">
 		  <div class="form-group">
 		    <label class="control-label col-sm-2">Model name:</label>
-		    <div class="col-sm-10">
-		      <input type="text" class="form-control" name="model_name" placeholder="Enter model name">
+		    <div class="col-sm-6">
+		      <input type="text" class="form-control" name="model_name" placeholder="Enter model name" required/>
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <label class="control-label col-sm-2">Installation date:</label>
-		    <div class="col-sm-10"> 
-		      <input type="text" class="form-control" name="installation_date" placeholder="Enter installation date">
+		    <div class="col-sm-6"> 
+		      <input type="text" class="form-control" name="installation_date" placeholder="Enter installation date" required/>
 		    </div>
 		  </div>
 		  <div class="form-group">
 			  <label class = "control-label col-sm-2" for="sel1">Select list:</label>
 			  <div class = "col-sm-3">
-			  <select class="form-control" name="id">
+			  <select class="form-control" name="id" required/>
 
 				<?php
 
@@ -139,6 +134,8 @@ sadmin html goes here
 		<br>
 
 		<div class = "container">
+
+				<h2>CCTV table</h2>
 			
 			  <p>The .table-hover class enables a hover state on table rows:</p>            
 			  <table class="table table-hover">
@@ -184,6 +181,15 @@ sadmin html goes here
 			    </tbody>
 			  </table>
 		</div>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+     $(document).ready(function(){
+        $('.dropdown-toggle').dropdown()
+    });
+</script>
 
 
 	</body>

@@ -68,11 +68,12 @@
 		<div class = "container col-md-3 col-md-offset-4">
 			<h1>Login</h1><br>
 			<form action = "" method = "post" name = "login">
-				<div class = "form-group">
+				<div class = "form-group has-error">
 					<input type = "text" class="form-control" name = "username" placeholder = "Username" required />
 				</div>
-				<div class = "form-group">
+				<div class = "form-group has-error">
 					<input type = "password" class="form-control" name = "password" placeholder = "Password" required/>
+					<span id="helpBlock2" class="help-block">Username/password is incorrect.</span>
 				</div>
 				
 				

@@ -23,28 +23,31 @@ sadmin html goes here
 		
 		<meta charset="utf-8">
 		<title>Home</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<link rel = "stylesheet" href = "style.css" />
+		<!--link rel = "stylesheet" href = "style.css" /-->
 
 	</head>
 
 	<body>
 		
-		<nav class = "nav navbar-default">
+		<nav class = "nav navbar-inverse">
 			<div class = "container-fluid">
-				<div class = "navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
-        				<span class="sr-only">Toggle navigation</span>
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>
-      				</button>
-						<a class = "navbar-brand" href="logout.php">Logout</a>
-				</div>
 				<div class="collapse navbar-collapse" id=".navbar-collapse">
+					<ul class = "nav navbar-nav">
+						<li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as <?php echo $_SESSION['username']; ?> <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a href="logout.php">Logout</a></li>
+				          </ul>
+				        </li>
+						
+					</ul>
+
 					<ul class = "nav navbar-nav navbar-right">
-						<li><a href = "#" style = "border-bottom: 3px solid #d200ff !important;">Admin</a></li>
+						<li><a href = "home.php">Home</a></li>
+						<li class = "active"><a href = "#" style = "border-bottom: 3px solid #d200ff !important;">Admin</a></li>
 						<li><a href = "cctv.php">CCTV</a></li>
 						<li><a href = "location.php">Location</a></li>
 						<li><a href = "#">Video</a></li>
@@ -53,11 +56,7 @@ sadmin html goes here
 				</div>
 			</div>
 		</nav>
-
-		<div class = "container">
-			<h1><p>Welcome <?php echo $_SESSION['username']; ?>!</p></h1>
-<h2>This is sadmin</h2>
-		</div>
+		<br>
 
 		<div class = "container">
 
@@ -66,31 +65,31 @@ sadmin html goes here
 		<form class="form-horizontal" action = "create_admin.php" method = "post">
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="email">Username:</label>
-		    <div class="col-sm-10">
-		      <input type="text" class="form-control" name="username" placeholder="Enter username">
+		    <div class="col-sm-6">
+		      <input type="text" class="form-control" name="username" placeholder="Enter username" required/>
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Password:</label>
-		    <div class="col-sm-10"> 
-		      <input type="password" class="form-control" name="password" placeholder="Enter password">
+		    <div class="col-sm-6"> 
+		      <input type="password" class="form-control" name="password" placeholder="Enter password" required/>
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">First name:</label>
-		    <div class="col-sm-10"> 
-		      <input type="text" class="form-control" name="fname" placeholder="Enter first name">
+		    <div class="col-sm-6"> 
+		      <input type="text" class="form-control" name="fname" placeholder="Enter first name" required/>
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Lastname:</label>
-		    <div class="col-sm-10"> 
-		      <input type="text" class="form-control" name="lname" placeholder="Enter last name">
+		    <div class="col-sm-6"> 
+		      <input type="text" class="form-control" name="lname" placeholder="Enter last name" required/>
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Phone number:</label>
-		    <div class="col-sm-10"> 
+		    <div class="col-sm-6"> 
 		      <input type="text" class="form-control" name="phone_number" placeholder="Phone number: 01*-********">
 		    </div>
 		  </div>
@@ -115,6 +114,7 @@ sadmin html goes here
 			        <th>First name</th>
 			        <th>Last name</th>
 			        <th>Phone number</th>
+			        <th>Settings</th>
 			      </tr>
 			    </thead>
 			    <tbody>
@@ -136,7 +136,14 @@ sadmin html goes here
 			      		"<td>". $row["fname"] ."</td>".
 			      		"<td>". $row["lname"] ."</td>".
 			      		"<td>". $row["phone_number"] ."</td>".
-			      		"</tr>";
+			      		"<td>
+			      		<form method = \"post\" action = \"edit_or_del_admin.php\">
+			      		<input type=\"hidden\" name = \"qty\" value = \"". mysqli_num_rows($result) ."\">
+			      		<button type = \"submit\" class = \"btn btn-default\" name = \"e". $row["id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-pencil\" aria-hidden = \"true\"></span></button>
+<button type = \"submit\" class = \"btn btn-default\" name = \"d". $row["id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-trash\" aria-hidden = \"true\"></span></button></form>
+
+			      		</td>"
+			      		."</tr>";
 			      	}
 			      }
 			      else
@@ -146,13 +153,24 @@ sadmin html goes here
 			      mysqli_close($connection);
 
 			      ?>
-
-			
+		
 			      
 			      
 			    </tbody>
 			  </table>
 		</div>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+     $(document).ready(function(){
+        $('.dropdown-toggle').dropdown()
+    });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 
 	</body>
@@ -164,7 +182,7 @@ sadmin html goes here
 
 
 
-<?
+<?php
 }
 
 else
@@ -182,7 +200,7 @@ admin html goes here
 <p>Click here to return</p>
 <a href = "home.php">Return</a>
 
-<?
+<?php
 }
 ?>
 

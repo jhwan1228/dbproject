@@ -3,8 +3,6 @@
 $connection = mysqli_connect('localhost', 'root', 'root');
 
 
-//hi
-
 if (!$connection)
 {
     die("Database connection failed" . mysqli_error());
@@ -23,9 +21,9 @@ if (!$select_db)
 
 $table1 = "
 CREATE TABLE if NOT EXISTS admin (
-id INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-username VARCHAR(10) NOT NULL,
-password VARCHAR(50) NOT NULL,
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(150) NOT NULL 	UNIQUE,
+password VARCHAR(180) NOT NULL,
 fname VARCHAR(50) NOT NULL,
 lname VARCHAR(50) NOT NULL,
 phone_number VARCHAR(50) DEFAULT NULL,
@@ -35,8 +33,8 @@ is_sadmin INT(1) NOT NULL
 $table2 = "
 
 CREATE TABLE if NOT EXISTS cctv (
-cctv_id INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-model_name VARCHAR(20) NOT NULL,
+cctv_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+model_name VARCHAR(100) NOT NULL,
 installation_date VARCHAR(50) NOT NULL,
 admin_id INT,
 FOREIGN KEY(admin_id) REFERENCES admin(id)
@@ -63,29 +61,19 @@ $table4 = "
 
 CREATE TABLE if NOT EXISTS neighbors (
 neighbors_id INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-neighbors_name VARCHAR(100)
+neighbors_name VARCHAR(100) UNIQUE
 )
 
 ";
 
 
-$table7 = "
 
-CREATE TABLE if NOT EXISTS neighbors_of(
-location_id INT,
-neighbors_id INT,
-FOREIGN KEY(location_id) REFERENCES location(location_id),
-FOREIGN KEY(neighbors_id) REFERENCES neighbors(neighbors_id)
-)
-
-
-";
 
 $table5 = "
 
 CREATE TABLE if NOT EXISTS sequence (
 sequence_id INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-sequence_name VARCHAR(100),
+sequence_name VARCHAR(100) UNIQUE,
 neighbors_list VARCHAR(100)
 )
 
@@ -104,11 +92,44 @@ FOREIGN KEY(location_id) REFERENCES location(location_id)
 
 ";
 
+$table7 = "
+
+CREATE TABLE if NOT EXISTS neighbors_of(
+location_id INT,
+neighbors_id INT,
+FOREIGN KEY(location_id) REFERENCES location(location_id),
+FOREIGN KEY(neighbors_id) REFERENCES neighbors(neighbors_id)
+)
+
+
+";
+
+$table8 = "
+
+CREATE TABLE if NOT EXISTS video(
+video_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+cctv_id INT NOT NULL,
+file_name VARCHAR(255) UNIQUE,
+FOREIGN KEY(cctv_id) REFERENCES cctv(cctv_id)
+)
+
+";
+
+$table9 = "
+
+CREATE TABLE if NOT EXISTS metalog(
+video_id INT NOT NULL,
+time_start VARCHAR(100),
+time_end VARCHAR(100),
+FOREIGN KEY(video_id) REFERENCES video(video_id)
+)
+
+";
 
 
 if(!mysqli_query($connection, $table1))
 {
-	die("Table 1 (admin_id) creation failed" . mysqli_error($connection));
+	die("Table 1 (admin_id) creation failed. " . mysqli_error($connection));
 }
 
 
@@ -141,5 +162,16 @@ if(!mysqli_query($connection, $table7))
 {
 	die("Table 7 (neighbors_of) creation failed" . mysqli_error($connection));
 }
+
+if(!mysqli_query($connection, $table8))
+{
+	die("Table 8 (video) creation failed" . mysqli_error($connection));
+}
+
+if(!mysqli_query($connection, $table9))
+{
+	die("Table 9 (metalog) creation failed" . mysqli_error($connection));
+}
+
 
 ?>
