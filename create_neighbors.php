@@ -10,6 +10,13 @@ if($_SESSION['username'] == "sadmin")
 	$l2_id = $_POST['l2_id'];
 	$nn = $_POST['neighbors_name'];
 
+	if($l1_id == $l2_id)
+	{
+		header("Location: location.php?error=lul");
+	}
+	else
+	{
+
 	
 
 	$query1 = "INSERT INTO neighbors(neighbors_name) VALUES ('$nn')";
@@ -48,6 +55,7 @@ if($_SESSION['username'] == "sadmin")
 	if($result1)
 	{
 		header("Location: location.php");
+	}
 	}
 
 

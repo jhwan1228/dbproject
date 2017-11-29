@@ -145,6 +145,7 @@ sadmin html goes here
 			        <th>Model name</th>
 			        <th>Installation date</th>
 			        <th>Admin-in-charge</th>
+			        <th>Location list</th>
 			      </tr>
 			    </thead>
 			    <tbody>
@@ -166,7 +167,13 @@ sadmin html goes here
 			      		"<td>". $row["model_name"] ."</td>".
 			      		"<td>". $row["installation_date"] ."</td>".
 			      		"<td>". $row["admin_id"] ."</td>".
-			      		"</tr>";
+			      		"<td>
+			      		<form method = \"post\" action = \"captures_list.php\">
+			      		<input type=\"hidden\" name = \"qty\" value = \"". mysqli_num_rows($result) ."\">
+			      		<button type = \"submit\" class = \"btn btn-default\" name = \"n". $row["cctv_id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-eye-open\" aria-hidden = \"true\"></span></button></form>
+
+			      		</td>"
+			      		."</tr>";
 			      	}
 			      }
 			      else

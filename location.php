@@ -2,6 +2,21 @@
 
 include("auth.php");
 
+if($_GET['error'] == "lol")
+{
+	echo "<script type=\"text/javascript\">alert(\"Create sequence failed.\")</script>";
+	
+}
+
+if($_GET['error'] == "lul")
+{
+	echo "<script type=\"text/javascript\">alert(\"Create neighbors failed.\")</script>";
+	
+}
+
+
+
+
 if($_SESSION['username'] == "sadmin")
 {
 
@@ -93,7 +108,7 @@ sadmin html goes here
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Details:</label>
 		    <div class="col-sm-6"> 
-		      <input type="text" class="form-control" name="details" placeholder="Enter details">
+		      <input type="text" class="form-control" name="details" placeholder="Enter details" required>
 		    </div>
 		  </div>
 		  <div class="form-group"> 
@@ -310,7 +325,7 @@ sadmin html goes here
 
 		<div class = "container">
 
-			<h3>Neighbors table</h3>
+			<h2>Neighbors table</h2>
 			
 			  <p>The .table-hover class enables a hover state on table rows:</p>            
 			  <table class="table table-hover">
@@ -320,6 +335,7 @@ sadmin html goes here
 			        <th>Neighbors name</th>
 			        <th>First location</th>
 			        <th>Second location</th>
+			        <th>Settings</th>
 			      </tr>
 			    </thead>
 			    <tbody>
@@ -345,6 +361,7 @@ sadmin html goes here
 			      		$test = $row["neighbors_id"];
 			      		$sql2 = "SELECT * FROM neighbors_of WHERE neighbors_id = '$test'";
 			      		$result2 = mysqli_query($connection, $sql2);
+			      		$q = 0;
 
 
 			      		if(mysqli_num_rows($result2) > 0)
@@ -352,7 +369,16 @@ sadmin html goes here
 			      			while($row2 = mysqli_fetch_array($result2))
 			      			{
 			      				//echo "<td>". $row2["location_id"] ."</td>";
+			      				$q += 1;
 			      				$test2 = $row2["location_id"];
+			      				if($q == 1)
+			      				{
+			      					$w = $test2;
+			      				}
+			      				else if($q == 2)
+			      				{
+			      					$e = $test2;
+			      				}
 			      				$sql3 = "SELECT * FROM location WHERE location_id = '$test2'";
 			      				$result3 = mysqli_query($connection, $sql3);
 			      				if(mysqli_num_rows($result3) > 0)
@@ -361,8 +387,16 @@ sadmin html goes here
 			      					{
 			      						echo "<td>". $row3["details"] ."</td>";
 			      					}
+
 			      				}
+
 			      			}
+			      			echo "<td><form method = \"post\" action = \"edit_or_del_neighbors.php\">
+			      		<input type=\"hidden\" name = \"qty\" value = \"". mysqli_num_rows($result) ."\">
+			      		<input type=\"hidden\" name = \"l1id\" value = \"". $w ."\">
+			      		<input type=\"hidden\" name = \"l2id\" value = \"". $e ."\">
+			      		<button type = \"submit\" class = \"btn btn-default\" name = \"e". $row["neighbors_id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-pencil\" aria-hidden = \"true\"></span></button>
+<button type = \"submit\" class = \"btn btn-default\" name = \"d". $row["neighbors_id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-trash\" aria-hidden = \"true\"></span></button></form></td>";
 			      		}
 
 
@@ -427,11 +461,67 @@ function showUser(str) {
 		    </div>
 		</form>
 		<br>
-		<form id = "txtHint" action = "create_sequence.php" method = "post" class = "form-horizontal col-md-3"></form>
+		<form id = "txtHint" action = "create_sequence.php" method = "post" class = "form-horizontal col-md-8"></form>
 
 
 		</div>
 		<br><br><br><br><br>
+
+
+		<div class = "container">
+		
+		<h2>Sequence table</h2>
+			
+			  <p>The .table-hover class enables a hover state on table rows:</p>            
+			  <table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Sequence id</th>
+			        <th>Sequence name</th>
+			        <th>Neighbors list</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      
+
+			    <?php
+			      require("db.php");
+
+			      $sqlsequence = "SELECT * FROM sequence";
+			      $resultsequence = mysqli_query($connection, $sqlsequence);
+
+			      if(mysqli_num_rows($resultsequence) > 0)
+			      {
+			      	while($row9 = mysqli_fetch_array($resultsequence))
+			      	{
+			      		echo
+			      		"<tr>".
+			      		"<td>". $row9["sequence_id"] ."</td>".
+			      		"<td>". $row9["sequence_name"] ."</td>".
+			      		"<td>
+			      		<form method = \"post\" action = \"neighbors_list.php\">
+			      		<input type=\"hidden\" name = \"qty\" value = \"". mysqli_num_rows($resultsequence) ."\">
+			      		<button type = \"submit\" class = \"btn btn-default\" name = \"n". $row9["sequence_id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-eye-open\" aria-hidden = \"true\"></span></button></form>
+
+			      		</td>"
+			      		."</tr>";
+			      	}
+			      }
+			      else
+			      {
+			      	echo "<h3>No cctv</h3>";
+			      }
+			      mysqli_close($connection);
+
+			      ?>
+
+			      
+			    </tbody>
+			  </table>
+
+
+
+		</div>
 
 
 
