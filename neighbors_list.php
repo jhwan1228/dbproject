@@ -124,6 +124,8 @@ $total_tr = count($tr);
 			      <tr>
 			        <th>Neighbors id</th>
 			        <th>Neighbors name</th>
+			        <th>First location</th>
+			        <th>Second location</th>
 			      </tr>
 			    </thead>
 			    <tbody>
@@ -149,9 +151,44 @@ $total_tr = count($tr);
 				      	echo
 				      	"<tr>".
 				      	"<td>". $rowb["neighbors_id"] ."</td>".
-				      	"<td>". $rowb["neighbors_name"] ."</td>".
-				      	"</tr>";
+				      	"<td>". $rowb["neighbors_name"] ."</td>";
+
+				      	$test = $rowb["neighbors_id"];
+			      		$sql2 = "SELECT * FROM neighbors_of WHERE neighbors_id = '$test'";
+			      		$result2 = mysqli_query($connection, $sql2);
+			      		$q = 0;
+
+				      	if(mysqli_num_rows($result2) > 0)
+			      		{
+			      			while($row2 = mysqli_fetch_array($result2))
+			      			{
+			      				//echo "<td>". $row2["location_id"] ."</td>";
+			      				$q += 1;
+			      				$test2 = $row2["location_id"];
+			      				if($q == 1)
+			      				{
+			      					$w = $test2;
+			      				}
+			      				else if($q == 2)
+			      				{
+			      					$e = $test2;
+			      				}
+			      				$sql3 = "SELECT * FROM location WHERE location_id = '$test2'";
+			      				$result3 = mysqli_query($connection, $sql3);
+			      				if(mysqli_num_rows($result3) > 0)
+			      				{
+			      					while($row3 = mysqli_fetch_array($result3))
+			      					{
+			      						echo "<td>". $row3["details"] ."</td>";
+			      					}
+
+			      				}
+
+			      			}
+			      		}
 				      }
+
+				      echo "</tr>";
 				    }
 				    else
 				    {

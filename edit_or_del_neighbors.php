@@ -102,7 +102,7 @@ if($action == 1)
 		  <div class="form-group">
 			  <label class = "control-label col-sm-2" for="sel1">Select location 1:</label>
 			  <div class = "col-sm-3">
-			  <select class="form-control" name="l1_id" value=<?php echo "\"". $l1id ."\"";?>>
+			  <select class="form-control" name="l1_id">
 
 				<?php
 
@@ -129,7 +129,7 @@ if($action == 1)
 			<div class="form-group">
 			  <label class = "control-label col-sm-2" for="sel1">Select location 2:</label>
 			  <div class = "col-sm-3">
-			  <select class="form-control" name="l2_id" value=<?php echo "\"". $l2id ."\"";?>>
+			  <select class="form-control" name="l2_id">
 
 				<?php
 

@@ -70,8 +70,8 @@ for($i = 0; $i < $total_tr - 1; $i++)
 		}
 	}
 
-	$ok = 0;
-	if($q == $e || $q == $r)
+	//$ok = 0;
+	if($q == $e || $q == $r || $w == $e || $w == $r)
 	{
 		$ok = 1;
 	}
@@ -85,7 +85,7 @@ for($i = 0; $i < $total_tr - 1; $i++)
 
 $message = "hi";
 
-if($ok)
+if($ok == 1)
 {
 
 	$query = "INSERT INTO sequence(sequence_name, neighbors_list) VALUES ('$s_name','$neighbors_list')";

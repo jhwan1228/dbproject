@@ -17,6 +17,7 @@ $query2 = "UPDATE neighbors_of SET location_id = '$l1_id' WHERE neighbors_id = $
 
 $query3 = "UPDATE neighbors_of SET location_id = '$l2_id' WHERE neighbors_id = $neighbors_id AND location_id = '$l2id'";
 
+
 $result = mysqli_query($connection, $query1);
 $result2 = mysqli_query($connection, $query2);
 $result3 = mysqli_query($connection, $query3);

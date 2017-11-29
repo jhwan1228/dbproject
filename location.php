@@ -94,12 +94,6 @@ sadmin html goes here
 		    </div>
 		  </div>
 		  <div class="form-group">
-		    <label class="control-label col-sm-2" for="pwd">Building number:</label>
-		    <div class="col-sm-6"> 
-		      <input type="text" class="form-control" name="bld_number" placeholder="Enter building number">
-		    </div>
-		  </div>
-		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Floor number:</label>
 		    <div class="col-sm-6"> 
 		      <input type="text" class="form-control" name="floor_number" placeholder="Enter floor number">
@@ -216,7 +210,6 @@ sadmin html goes here
 			        <th>City</th>
 			        <th>Province</th>
 			        <th>Building name</th>
-			        <th>Building number</th>
 			        <th>Floor number</th>
 			        <th>Details</th>
 			      </tr>
@@ -240,7 +233,6 @@ sadmin html goes here
 			      		"<td>". $row["city"] ."</td>".
 			      		"<td>". $row["province"] ."</td>".
 			      		"<td>". $row["bld_name"] ."</td>".
-			      		"<td>". $row["bld_number"] ."</td>".
 			      		"<td>". $row["floor_number"] ."</td>".
 			      		"<td>". $row["details"] ."</td>".
 			      		"</tr>";
