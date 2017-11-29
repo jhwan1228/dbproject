@@ -1,6 +1,6 @@
 <?php
 
-$connection = mysqli_connect('localhost', 'root', 'root');
+$connection = mysqli_connect('165.132.105.47', 'database2017', 'db20170101');
 
 
 if (!$connection)
@@ -10,7 +10,7 @@ if (!$connection)
 
 
 
-$select_db = mysqli_select_db($connection,'test2');
+$select_db = mysqli_select_db($connection,'database2017');
 
 
 if (!$select_db)
