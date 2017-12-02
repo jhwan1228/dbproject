@@ -51,6 +51,23 @@ if(mysqli_num_rows($result2) > 0)
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	</head>
 
+	<style>
+		
+		body {background-color: #F1F1F1;}
+
+		.container
+		{
+			background-color: white;
+			padding-left: 50px;
+			padding-top: 15px;
+			padding-bottom: 15px;
+			margin-top: 10px;
+			border: 1px solid #E7E7E7;
+			border-radius: 5px;
+		}
+
+	</style>
+
 	<body>
 		
 		<nav class = "nav navbar-inverse">

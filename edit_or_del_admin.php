@@ -75,6 +75,22 @@ if($_SESSION['username'] == "sadmin")
 		<!--link rel = "stylesheet" href = "style.css" /-->
 
 	</head>
+	<style>
+		
+		body {background-color: #F1F1F1;}
+
+		.container
+		{
+			background-color: white;
+			padding-left: 50px;
+			padding-top: 15px;
+			padding-bottom: 15px;
+			margin-top: 10px;
+			border: 1px solid #E7E7E7;
+			border-radius: 5px;
+		}
+
+	</style>
 
 	<body>
 		<nav class = "nav navbar-inverse">

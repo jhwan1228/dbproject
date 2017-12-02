@@ -42,12 +42,11 @@ sadmin html goes here
 					</ul>
 
 					<ul class = "nav navbar-nav navbar-right">
-						<li  class = "active"><a style = "border-bottom: 3px solid #d200ff !important;"">Home</a></li>
+						<li  class = "active"><a style = "border-bottom: 3px solid #d200ff !important;">Home</a></li>
 						<li><a href = "admin.php" >Admin</a></li>
 						<li><a href = "cctv.php">CCTV</a></li>
 						<li><a href = "location.php">Location</a></li>
-						<li><a href = "#">Video</a></li>
-						<li><a href = "#">Metalog</a></li>
+						<li><a href = "vm.php">Video + Metalog</a></li>
 					</ul>
 				</div>
 			</div>

@@ -66,6 +66,23 @@ if($action == 1)
 
 	</head>
 
+	<style>
+		
+		body {background-color: #F1F1F1;}
+
+		.container
+		{
+			background-color: white;
+			padding-left: 50px;
+			padding-top: 15px;
+			padding-bottom: 15px;
+			margin-top: 10px;
+			border: 1px solid #E7E7E7;
+			border-radius: 5px;
+		}
+
+	</style>
+
 	<body>
 		
 		<nav class = "nav navbar-inverse">
@@ -223,8 +240,9 @@ else if($action == 2)
 				if($tr[$i] == $nid)
 				{
 					$sql2 = "DELETE FROM sequence WHERE sequence_id = $test1";
-					$resultsql = mysqli_query($connection, $sql2);
-					if(!$resultsql)
+                    echo $test1 . " ";
+					$resultsql2 = mysqli_query($connection, $sql2);
+					if(!$resultsql2)
 					{
 						echo "resultsql failed";
 					}

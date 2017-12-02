@@ -10,6 +10,15 @@ if($_SESSION['username'] == "sadmin")
 	$l2_id = $_POST['l2_id'];
 	$nn = $_POST['neighbors_name'];
 
+	$sql4 = "SELECT * FROM neighbors WHERE neighbors_name = $nn";
+	$resultsql4 = mysqli_query($connection, $sql4);]
+	if(mysqli_num_rows($resultsql4) > 0)
+	{
+		header("Location: location.php?error=lul");
+	}
+	else
+	{
+
 	if($l1_id == $l2_id)
 	{
 		header("Location: location.php?error=lul");
@@ -55,6 +64,7 @@ if($_SESSION['username'] == "sadmin")
 	if($result1)
 	{
 		header("Location: location.php");
+	}
 	}
 	}
 

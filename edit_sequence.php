@@ -5,16 +5,9 @@ require('db.php');
 
 $total = $_POST['qty'];
 $s_name = $_POST['s_name'];
+$s_id = $_POST['s_id'];
 $i = 1;
 
-$sql3 = "SELECT * FROM sequence WHERE sequence_name = '$s_name'";
-$resultsql3 = mysqli_query($connection, $sql3);
-if(mysqli_num_rows($resultsql3) > 0)
-{
-	header("Location: location.php?error=lol");
-}
-else
-{
 
 for($i = 1; $i < $total + 1; $i++)
 {
@@ -96,9 +89,11 @@ $message = "hi";
 if($ok == 1)
 {
 
-	$query = "INSERT INTO sequence(sequence_name, neighbors_list) VALUES ('$s_name','$neighbors_list')";
-	$result = mysqli_query($connection, $query);
-	if($result)
+	$query1 = "UPDATE sequence SET sequence_name = '$s_name' WHERE sequence_id = '$s_id'";
+	$query2 = "UPDATE sequence SET neighbors_list = '$neighbors_list' WHERE sequence_id = '$s_id'";
+	$result1 = mysqli_query($connection, $query1);
+	$result2 = mysqli_query($connection, $query2);
+	if($result1 && $result2)
 	{
 		header("Location: location.php");
 	}
@@ -107,7 +102,6 @@ if($ok == 1)
 else
 {
 	header("Location: location.php?error=lol");
-}
 }
 
 

@@ -6,7 +6,10 @@ require("db.php");
 if($_SESSION['username'] == "sadmin")
 {
 
-
+if($_GET['error'] == 'exist')
+{
+    echo "<script type = \"text/javascript\">alert(\"Create admin failed\")</script>";
+}
 
 ?>
 
@@ -29,6 +32,22 @@ sadmin html goes here
 		<!--link rel = "stylesheet" href = "style.css" /-->
 
 	</head>
+	<style>
+		
+		body {background-color: #F1F1F1;}
+
+		.container
+		{
+			background-color: white;
+			padding-left: 50px;
+			padding-top: 15px;
+			padding-bottom: 15px;
+			margin-top: 10px;
+			border: 1px solid #E7E7E7;
+			border-radius: 5px;
+		}
+
+	</style>
 
 	<body>
 		
@@ -50,8 +69,7 @@ sadmin html goes here
 						<li class = "active"><a href = "#" style = "border-bottom: 3px solid #d200ff !important;">Admin</a></li>
 						<li><a href = "cctv.php">CCTV</a></li>
 						<li><a href = "location.php">Location</a></li>
-						<li><a href = "#">Video</a></li>
-						<li><a href = "#">Metalog</a></li>
+						<li><a href = "vm.php">Video + Metalog</a></li>
 					</ul>
 				</div>
 			</div>
@@ -82,7 +100,7 @@ sadmin html goes here
 		    </div>
 		  </div>
 		  <div class="form-group">
-		    <label class="control-label col-sm-2" for="pwd">Lastname:</label>
+		    <label class="control-label col-sm-2" for="pwd">Last name:</label>
 		    <div class="col-sm-6"> 
 		      <input type="text" class="form-control" name="lname" placeholder="Enter last name" required/>
 		    </div>
@@ -102,6 +120,260 @@ sadmin html goes here
 
 
 		</div>
+		
+
+
+		<div class = "container">
+			<h2>Search admin with personal information</h2><br>
+			<form class="form-inline" method = "post" action = "admin.php?go">
+			  <div class="form-group">
+			    <label>Username:</label>
+			    <input type="text" class="form-control" name="username">
+			  </div>
+			  <div class="form-group">
+			    <label>First name:</label>
+			    <input type="text" class="form-control" name="fname">
+			  </div>
+			  <div class="form-group">
+			    <label>Last name:</label>
+			    <input type="text" class="form-control" name="lname">
+			  </div>
+			  <div class="form-group">
+			    <label>Phone number:</label>
+			    <input type="text" class="form-control" name="phone_number">
+			  </div>
+			  <button type="submit" name = "search_submit" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
+			</form>
+		
+
+
+		
+			<h3>Search results</h3>
+
+			<table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Admin id</th>
+			        <th>Username</th>
+			        <th>First name</th>
+			        <th>Last name</th>
+			        <th>Phone number</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+
+			<?php
+			if(isset($_POST['search_submit']))
+			{
+			if(isset($_GET['go']))
+			{
+				//if($_POST['model_name'])
+				
+				$username = $_POST['username'];
+				$fname = $_POST['fname'];
+				$lname = $_POST['lname'];
+				$phone_number = $_POST['phone_number'];
+
+				if($username && !$fname && !$lname && !$phone_number) // search username only (a)
+				{
+					$sql = "SELECT * FROM admin WHERE username = '$username'";
+				}
+				else if(!$username && $fname && !$lname && !$phone_number) // search fname only (b)
+				{
+					$sql = "SELECT * FROM admin WHERE fname = '$fname'";
+				}
+				else if(!$username && !$fname && $lname && !$phone_number) // search lname only (c)
+				{
+					$sql = "SELECT * FROM admin WHERE lname = '$lname'";
+				}
+				else if(!$username && !$fname && !$lname && $phone_number) // search phone_number only (d)
+				{
+					$sql = "SELECT * FROM admin WHERE phone_number = '$phone_number'";
+				}
+				else if($username && $fname && !$lname && !$phone_number) // search username and fname (ab)
+				{
+					$sql = "SELECT * FROM admin WHERE username = '$username' AND fname = '$fname'";
+				}
+				else if($username && !$fname && $lname && !$phone_number) // search username and lname (ac)
+				{
+					$sql = "SELECT * FROM admin WHERE username = '$username' AND lname = '$lname'";
+				}
+				else if($username && !$fname && !$lname && $phone_number) // search username and phone_number (ad)
+				{
+					$sql = "SELECT * FROM admin WHERE username = '$username' AND phone_number = '$phone_number'";
+				}
+				else if(!$username && $fname && $lname && !$phone_number) // search fname and lname (bc)
+				{
+					$sql = "SELECT * FROM admin WHERE fname = '$fname' AND lname = '$lname'";
+				}
+				else if(!$username && $fname && !$lname && $phone_number) // search fname and phone_number (bd)
+				{
+					$sql = "SELECT * FROM admin WHERE fname = '$fname' AND phone_number = '$phone_number'";
+				}
+				else if(!$username && !$fname && $lname && $phone_number) // search lname and phone_number (cd)
+				{
+					$sql = "SELECT * FROM admin WHERE lname = '$lname' AND phone_number = '$phone_number'";
+				}
+				else if($username && $fname && $lname && !$phone_number) // search username, fname and lname (abc)
+				{
+					$sql = "SELECT * FROM admin WHERE username = '$username' AND fname = '$fname' AND lname = '$lname'";
+				}
+				else if($username && $fname && !$lname && $phone_number) // search username, fname and phone_number (abd)
+				{
+					$sql = "SELECT * FROM admin WHERE username = '$username' AND fname = '$fname' AND phone_number = '$phone_number'";
+				}
+				else if($username && !$fname && $lname && $phone_number) // search username, lname, and phone_number (acd)
+				{
+					$sql = "SELECT * FROM admin WHERE username = '$username' AND lname = '$lname' AND phone_number = '$phone_number'";
+				}
+				else if(!$username && $fname && $lname && $phone_number) // search fname, lname, and phone_number (bcd)
+				{
+					$sql = "SELECT * FROM admin WHERE fname = '$fname' AND lname = '$lname' AND phone_number = '$phone_number'";
+				}
+				else if($username && $fname && $lname && $phone_number) // search username, fname, lname, and phone_number (abcd)
+				{
+					$sql = "SELECT * FROM admin WHERE username = '$username' AND fname = '$fname' AND lname = '$lname' AND phone_number = '$phone_number'";
+				}
+
+				
+
+
+				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
+				$resultsql = mysqli_query($connection, $sql);
+				while($row = mysqli_fetch_array($resultsql))
+				{
+					$result_admin_id = $row['id'];
+					$result_username = $row['username'];
+					$result_fname = $row['fname'];
+					$result_lname = $row['lname'];
+					$result_phone_number = $row['phone_number'];
+					$result_cctv_id = $row['cctv_id'];
+					echo
+			      	"<tr>".
+			      	"<td>". $result_admin_id ."</td>".
+			      	"<td>". $result_username ."</td>".
+			      	"<td>". $result_fname ."</td>".
+			      	"<td>". $result_lname ."</td>".
+			      	"<td>". $result_phone_number ."</td>".
+			      	"<td>". $result_cctv_id ."</td>"
+			      	."</tr>";
+				}
+				
+			}
+			}
+			?>
+			</tbody>
+			</table>
+			<?php
+			if(isset($_POST['search_submit']))
+			{
+				if(isset($_GET['go']))
+				{
+					echo "<a type=\"submit\" href = \"admin.php\" class=\"btn btn-primary\">Done</a>";
+				}
+			}
+			else
+			{
+				echo "<p>Please enter search query</p>";
+			}
+
+			?>
+		</div>
+
+
+
+		<div class = "container">
+			<h2>Search admin with cctv assigned</h2><br>
+			<form class="form-inline" method = "post" action = "admin.php?gol">
+			  <div class="form-group">
+			    <label>CCTV assigned:</label>
+			    <input type="text" class="form-control" name="cctv_id">
+			  </div>
+			  <button type="submit" name = "search_submit2" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
+			</form>
+		
+		<br>
+
+		
+			<h3>Search results</h3>
+
+			<table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Admin id</th>
+			        <th>Username</th>
+			        <th>First name</th>
+			        <th>Last name</th>
+			        <th>Phone number</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+
+			<?php
+			if(isset($_POST['search_submit2']))
+			{
+			if(isset($_GET['gol']))
+			{
+				//if($_POST['model_name'])
+				
+				$cctv_id = $_POST['cctv_id'];
+				
+				if($cctv_id)
+				{
+					$sql2 = "SELECT * FROM cctv WHERE cctv_id = $cctv_id";
+					$resultsql2 = mysqli_query($connection, $sql2);
+					$row2 = mysqli_fetch_array($resultsql2);
+					$row2_admin_id = $row2['admin_id'];
+					$sql3 = "SELECT * FROM admin WHERE id = '$row2_admin_id'";
+				}
+
+
+				
+
+
+				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
+				$resultsql3 = mysqli_query($connection, $sql3);
+				while($row3 = mysqli_fetch_array($resultsql3))
+				{
+					$result_admin_id = $row3['id'];
+					$result_username = $row3['username'];
+					$result_fname = $row3['fname'];
+					$result_lname = $row3['lname'];
+					$result_phone_number = $row3['phone_number'];
+					$result_cctv_id = $row3['cctv_id'];
+					echo
+			      	"<tr>".
+			      	"<td>". $result_admin_id ."</td>".
+			      	"<td>". $result_username ."</td>".
+			      	"<td>". $result_fname ."</td>".
+			      	"<td>". $result_lname ."</td>".
+			      	"<td>". $result_phone_number ."</td>".
+			      	"<td>". $result_cctv_id ."</td>"
+			      	."</tr>";
+				}
+				
+			}
+			}
+			?>
+			</tbody>
+			</table>
+			<?php
+			if(isset($_POST['search_submit2']))
+			{
+				if(isset($_GET['gol']))
+				{
+					echo "<a type=\"submit\" href = \"admin.php\" class=\"btn btn-primary\">Done</a>";
+				}
+			}
+			else
+			{
+				echo "<p>Please enter search query</p>";
+			}
+
+			?>
+		</div>
+
+
 
 		<div class = "container">
 			<h2>Admin</h2>

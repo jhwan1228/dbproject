@@ -25,6 +25,23 @@ sadmin html goes here
 
 	</head>
 
+	<style>
+		
+		body {background-color: #F1F1F1;}
+
+		.container
+		{
+			background-color: white;
+			padding-left: 50px;
+			padding-top: 15px;
+			padding-bottom: 15px;
+			margin-top: 10px;
+			border: 1px solid #E7E7E7;
+			border-radius: 5px;
+		}
+
+	</style>
+
 	<body>
 		
 		<nav class = "nav navbar-inverse">
@@ -45,8 +62,7 @@ sadmin html goes here
 						<li><a href = "admin.php">Admin</a></li>
 						<li class = "active"><a href = "#" style = "border-bottom: 3px solid #d200ff !important;">CCTV</a></li>
 						<li><a href = "location.php">Location</a></li>
-						<li><a href = "#">Video</a></li>
-						<li><a href = "#">Metalog</a></li>
+						<li><a href = "vm.php">Video + Metalog</a></li>
 					</ul>
 				</div>
 			</div>
@@ -74,7 +90,7 @@ sadmin html goes here
 		    </div>
 		  </div>
 		  <div class="form-group">
-			  <label class = "control-label col-sm-2" for="sel1">Select list:</label>
+			  <label class = "control-label col-sm-2" for="sel1">Select admin:</label>
 			  <div class = "col-sm-3">
 			  <select class="form-control" name="id" required/>
 
@@ -103,35 +119,136 @@ sadmin html goes here
 		    </div>
 		  </div>
 		</form>
+		</div>
+
+		<div class = "container">
+
+		<h2>Create CCTV with csv</h2>
 
 
+		<form class="form-horizontal" action = "create_cctv_csv.php" method = "post" enctype = "multipart/form-data">
+		  <div class="form-group">
+		    <label class="control-label col-sm-2">Upload file:</label>
+		    <div class="col-sm-6">
+		      <input type="file" class="form-control" name="cctvupload" required/>
+		    </div>
+		  </div>
+		  <div class="form-group"> 
+		    <div class="col-sm-offset-2 col-sm-10">
+		      <input type="submit" class="btn btn-default" name = "save" value = "Upload">
+		    </div>
+		  </div>
+		</form>
 		</div>
 		
 
 		<div class = "container">
-			<h3>Search</h3>
-			<form class="form-inline">
+			<h2>Search CCTV</h2>
+			<form class="form-inline" method = "post" action = "cctv.php?go">
 			  <div class="form-group">
-			    <label for="">CCTV id:</label>
-			    <input type="text" class="form-control" id="">
+			    <label>Model name:</label>
+			    <input type="text" class="form-control" name="model_name">
 			  </div>
 			  <div class="form-group">
-			    <label for="">Model name:</label>
-			    <input type="text" class="form-control" id="">
+			    <label>Installation date:</label>
+			    <input type="text" class="form-control" name="installation_date">
 			  </div>
 			  <div class="form-group">
-			    <label for="">Installation date:</label>
-			    <input type="text" class="form-control" id="">
+			    <label>Admin-in-charge:</label>
+			    <input type="text" class="form-control" name="admin_in_charge">
 			  </div>
-			  <div class="form-group">
-			    <label for="">Admin-in-charge:</label>
-			    <input type="text" class="form-control" id="">
-			  </div>
-			  <button type="submit" class="btn btn-default">Submit</button>
+			  <button type="submit" name = "search_submit" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
 			</form>
+		
+		<br>
+
+			<h3>Search results</h3>
+
+			<table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>CCTV id</th>
+			        <th>Model name</th>
+			        <th>Installation date</th>
+			        <th>Admin-in-charge</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+
+			<?php
+			if(isset($_POST['search_submit']))
+			{
+			if(isset($_GET['go']))
+			{
+				//if($_POST['model_name'])
+				
+				$model_name = $_POST['model_name'];
+				$installation_date = $_POST['installation_date'];
+				$admin_in_charge = $_POST['admin_in_charge'];
+
+				if($model_name && !$installation_date && !$admin_in_charge)
+				{
+					$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
+				}
+				else if(!$model_name && $installation_date && !$admin_in_charge)
+				{
+					$sql = "SELECT * FROM cctv WHERE installation_date = '$installation_date'";
+				}
+				else if(!$model_name && !$installation_date && $admin_in_charge)
+				{
+					$sql = "SELECT * FROM cctv WHERE admin_id = '$admin_in_charge'";
+				}
+				else if($model_name && $installation_date && !$admin_in_charge)
+				{
+					$sql = "SELECT * FROM cctv WHERE model_name = '$model_name' AND installation_date = '$installation_date'";
+				}
+				else if(!$model_name && $installation_date && $admin_in_charge)
+				{
+					$sql = "SELECT * FROM cctv WHERE admin_id = '$admin_in_charge' AND installation_date = '$installation_date'";
+				}
+				else if($model_name && !$installation_date && $admin_in_charge)
+				{
+					$sql = "SELECT * FROM cctv WHERE admin_id = '$admin_in_charge' AND model_name = '$model_name'";
+				}
+
+				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
+				$resultsql = mysqli_query($connection, $sql);
+				while($row = mysqli_fetch_array($resultsql))
+				{
+					$result_cctv_id = $row['cctv_id'];
+					$result_model_name = $row['model_name'];
+					$result_installation_date = $row['installation_date'];
+					$result_admin_in_charge = $row['admin_id'];
+					echo
+			      	"<tr>".
+			      	"<td>". $result_cctv_id ."</td>".
+			      	"<td>". $result_model_name ."</td>".
+			      	"<td>". $result_installation_date ."</td>".
+			      	"<td>". $result_admin_in_charge ."</td>"
+			      	."</tr>";
+				}
+				
+			}
+			}
+			?>
+			</tbody>
+			</table>
+			<?php
+			if(isset($_POST['search_submit']))
+			{
+				if(isset($_GET['go']))
+				{
+					echo "<a type=\"submit\" href = \"cctv.php\" class=\"btn btn-primary\">Done</a><br>";
+				}
+			}
+			else
+			{
+				echo "<p>Please enter search query</p>";
+			}
+
+			?>
 		</div>
-		<br>
-		<br>
+		
 
 		<div class = "container">
 

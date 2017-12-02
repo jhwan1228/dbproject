@@ -14,7 +14,11 @@ if($_GET['error'] == "lul")
 	
 }
 
-
+if($_GET['error'] == "detail_not_unique")
+{
+	echo "<script type=\"text/javascript\">alert(\"Create location failed.\")</script>";
+	
+}
 
 
 if($_SESSION['username'] == "sadmin")
@@ -41,6 +45,23 @@ sadmin html goes here
 
 	</head>
 
+	<style>
+		
+		body {background-color: #F1F1F1;}
+
+		.container
+		{
+			background-color: white;
+			padding-left: 50px;
+			padding-top: 15px;
+			padding-bottom: 15px;
+			margin-top: 10px;
+			border: 1px solid #E7E7E7;
+			border-radius: 5px;
+		}
+
+	</style>
+
 	<body>
 		
 		<nav class = "nav navbar-inverse">
@@ -61,8 +82,8 @@ sadmin html goes here
 						<li><a href = "admin.php">Admin</a></li>
 						<li><a href = "cctv.php">CCTV</a></li>
 						<li class = "active"><a href = "location.php" style = "border-bottom: 3px solid #d200ff !important;">Location</a></li>
-						<li><a href = "#">Video</a></li>
-						<li><a href = "#">Metalog</a></li>
+						<li><a href = "vm.php">Video + Metalog</a></li>
+						
 					</ul>
 				</div>
 			</div>
@@ -174,29 +195,216 @@ sadmin html goes here
 		
 
 		<div class = "container">
-			<h3>Search</h3>
-			<form class="form-inline">
+			<h2>Search Location</h2>
+			<form class="form-inline" method = "post" action = "location.php?go">
 			  <div class="form-group">
-			    <label for="">CCTV id:</label>
-			    <input type="text" class="form-control" id="">
+			    <label>City:</label>
+			    <input type="text" class="form-control" name="city">
 			  </div>
 			  <div class="form-group">
-			    <label for="">Model name:</label>
-			    <input type="text" class="form-control" id="">
+			    <label>Province:</label>
+			    <input type="text" class="form-control" name="province">
 			  </div>
 			  <div class="form-group">
-			    <label for="">Installation date:</label>
-			    <input type="text" class="form-control" id="">
+			    <label>Building name:</label>
+			    <input type="text" class="form-control" name="bld_name">
 			  </div>
 			  <div class="form-group">
-			    <label for="">Admin-in-charge:</label>
-			    <input type="text" class="form-control" id="">
+			    <label>Floor number:</label>
+			    <input type="text" class="form-control" name="floor_number">
 			  </div>
-			  <button type="submit" class="btn btn-default">Submit</button>
+			  <div class="form-group">
+			    <label>Details:</label>
+			    <input type="text" class="form-control" name="details">
+			  </div>
+			  <button type="submit" name = "search_submit" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
 			</form>
+		
+		<br>
+
+		
+			<h3>Search results</h3>
+
+			<table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Location id</th>
+			        <th>City</th>
+			        <th>Province</th>
+			        <th>Building name</th>
+			        <th>Floor number</th>
+			        <th>Details</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+
+			<?php
+			if(isset($_POST['search_submit']))
+			{
+			if(isset($_GET['go']))
+			{
+				//if($_POST['model_name'])
+				
+				$city = $_POST['city'];
+				$province = $_POST['province'];
+				$bld_name = $_POST['bld_name'];
+				$floor_number = $_POST['floor_number'];
+				$details = $_POST['details'];
+
+				if($city && !$province && !$bld_name && !$floor_number && !$details) // search city only (a)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city'";
+				}
+				else if(!$city && $province && !$bld_name && !$floor_number && !$details) // search province only (b)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province'";
+				}
+				else if(!$city && !$province && $bld_name && !$floor_number && !$details) // search building name only (c)
+				{
+					$sql = "SELECT * FROM location WHERE bld_name = '$bld_name'";
+				}
+				else if(!$city && !$province && !$bld_name && $floor_number && !$details) // search floor number only (d)
+				{
+					$sql = "SELECT * FROM location WHERE floor_number = '$floor_number'";
+				}
+				else if(!$city && !$province && !$bld_name && !$floor_number && $details) // search details only (e)
+				{
+					$sql = "SELECT * FROM location WHERE details = '$details'";
+				}
+				else if($city && $province && !$bld_name && !$floor_number && !$details) // search city and province (ab)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province'";
+				}
+				else if($city && !$province && $bld_name && !$floor_number && !$details) // search city and building name (ac)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND bld_name = '$bld_name'";
+				}
+				else if($city && !$province && !$bld_name && $floor_number && !$details) // search city and floor number (ad)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND floor_number = '$floor_number'";
+				}
+				else if($city && !$province && !$bld_name && !$floor_number && $details) // search city and details (ae)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND details = '$details'";
+				}
+				else if(!$city && $province && $bld_name && !$floor_number && !$details) // search province and building name (bc)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province' AND bld_name = '$bld_name'";
+				}
+				else if(!$city && $province && !$bld_name && $floor_number && !$details) // search province and floor number (bd)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province' AND floor_number = '$floor_number'";
+				}
+				else if(!$city && $province && !$bld_name && !$floor_number && $details) // search province and details (be)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province' AND details = '$details'";
+				}
+				else if(!$city && !$province && $bld_name && $floor_number && !$details) // search building name and floor number (cd)
+				{
+					$sql = "SELECT * FROM location WHERE bld_name = '$bld_name' AND floor_number = '$floor_number'";
+				}
+				else if(!$city && !$province && $bld_name && !$floor_number && $details) // search building name and details (ce)
+				{
+					$sql = "SELECT * FROM location WHERE bld_name = '$bld_name' AND details = '$details'";
+				}
+				else if(!$city && !$province && !$bld_name && $floor_number && $details) // search floor_number and details (de)
+				{
+					$sql = "SELECT * FROM location WHERE floor_number = '$floor_number' AND details = '$details'";
+				}
+				else if($city && $province && $bld_name && !$floor_number && !$details) // search city, province and building name (abc)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND bld_name = '$bld_name'";
+				}
+				else if($city && $province && !$bld_name && $floor_number && !$details) // search city, province and floor number (abd)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND floor_number = '$floor_number'";
+				}
+				else if($city && $province && !$bld_name && !$floor_number && $details) // search city, province and details (abe)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND details = '$details'";
+				}
+				else if($city && !$province && $bld_name && $floor_number && !$details) // search city, building name, and floor number (acd)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND bld_name = '$bld_name' AND floor_number = '$floor_number'";
+				}
+				else if($city && !$province && $bld_name && !$floor_number && $details) // search city, building name, and details (ace)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND bld_name = '$bld_name' AND details = '$details'";
+				}
+				else if($city && !$province && !$bld_name && $floor_number && $details) // search city, floor number, and details (ade)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND floor_number = '$floor_number' AND details = '$details'";
+				}
+				else if(!$city && $province && $bld_name && $floor_number && !$details) // search province, building name, and floor number (bcd)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province' AND bld_name = '$bld_name' AND floor_number = '$floor_number'";
+				}
+				else if(!$city && $province && $bld_name && !$floor_number && $details) // search province, building name, and details (bce)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province' AND bld_name = '$bld_name' AND details = '$details'";
+				}
+				else if(!$city && !$province && $bld_name && $floor_number && $details) // search building name, floor number, and details (cde)
+				{
+					$sql = "SELECT * FROM location WHERE bld_name = '$bld_name' AND floor_number = '$floor_number' AND details = '$details'";
+				}
+				else if($city && $province && $bld_name && $floor_number && !$details) // search city, province, building name, and floor number (abcd)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND bld_name = '$bld_name' AND floor_number = '$floor_number'";
+				}
+				else if($city && $province && $bld_name && !$floor_number && $details) // search city, province, building name, and details (abce)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND bld_name = '$bld_name' AND details = '$details'";
+				}
+				else if($city && $province && $bld_name && $floor_number && $details) // search city, province, building name, floor number and details (abcde)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND bld_name = '$bld_name' AND floor_number = '$floor_number' AND details = '$details'";
+				}
+
+				
+
+
+				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
+				$resultsql = mysqli_query($connection, $sql);
+				while($row = mysqli_fetch_array($resultsql))
+				{
+					$result_location_id = $row['location_id'];
+					$result_city = $row['city'];
+					$result_province = $row['province'];
+					$result_bld_name = $row['bld_name'];
+					$result_floor_number = $row['floor_number'];
+					$result_details = $row['details'];
+					echo
+			      	"<tr>".
+			      	"<td>". $result_location_id ."</td>".
+			      	"<td>". $result_city ."</td>".
+			      	"<td>". $result_province ."</td>".
+			      	"<td>". $result_bld_name ."</td>".
+			      	"<td>". $result_floor_number ."</td>".
+			      	"<td>". $result_details ."</td>"
+			      	."</tr>";
+				}
+				
+			}
+			}
+			?>
+			</tbody>
+			</table>
+			<?php
+			if(isset($_POST['search_submit']))
+			{
+				if(isset($_GET['go']))
+				{
+					echo "<a type=\"submit\" href = \"location.php\" class=\"btn btn-primary\">Done</a>";
+				}
+			}
+			else
+			{
+				echo "<p>Please enter search query</p>";
+			}
+
+			?>
 		</div>
-		<br>
-		<br>
+
 
 		<div class = "container">
 
@@ -300,7 +508,7 @@ sadmin html goes here
 			<div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Neighbors name:</label>
 		    <div class="col-sm-6"> 
-		      <input type="text" class="form-control" name="neighbors_name" placeholder="Enter neighbors name">
+		      <input type="text" class="form-control" name="neighbors_name" placeholder="Enter neighbors name" required>
 		    </div>
 		  </div>
 		  <div class="form-group"> 
@@ -448,7 +656,7 @@ function showUser(str) {
 			<div class = "form-group">
 				<label for="inputEmail3" class="col-sm-2 control-label">How many?</label>
 			    <div class="col-sm-4">
-			      <input type="text" class="form-control" onchange = "showUser(this.value)">
+			      <input type="number" class="form-control" onchange = "showUser(this.value)">
 			    </div>
 		    </div>
 		</form>
@@ -457,7 +665,7 @@ function showUser(str) {
 
 
 		</div>
-		<br><br><br><br><br>
+		
 
 
 		<div class = "container">
@@ -471,6 +679,7 @@ function showUser(str) {
 			        <th>Sequence id</th>
 			        <th>Sequence name</th>
 			        <th>Neighbors list</th>
+			        <th>Settings</th>
 			      </tr>
 			    </thead>
 			    <tbody>
@@ -495,7 +704,11 @@ function showUser(str) {
 			      		<input type=\"hidden\" name = \"qty\" value = \"". mysqli_num_rows($resultsequence) ."\">
 			      		<button type = \"submit\" class = \"btn btn-default\" name = \"n". $row9["sequence_id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-eye-open\" aria-hidden = \"true\"></span></button></form>
 
-			      		</td>"
+			      		</td>".
+			      		"<td><form method = \"post\" action = \"edit_or_delete_sequence.php\">
+			      		<input type=\"hidden\" name = \"qty\" value = \"". mysqli_num_rows($result) ."\">
+			      		<button type = \"submit\" class = \"btn btn-default\" name = \"e". $row9["sequence_id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-pencil\" aria-hidden = \"true\"></span></button>
+<button type = \"submit\" class = \"btn btn-default\" name = \"d". $row9["sequence_id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-trash\" aria-hidden = \"true\"></span></button></form></td>"
 			      		."</tr>";
 			      	}
 			      }

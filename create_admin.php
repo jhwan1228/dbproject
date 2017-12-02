@@ -12,6 +12,15 @@ if($_SESSION['username'] == "sadmin")
 	$lname = $_POST['lname'];
 	$phone_number = $_POST['phone_number'];
 
+    $sql = "SELECT * FROM admin WHERE username = '$username'";
+    $resultsql = mysqli_query($connection, $sql);
+    if(mysqli_num_rows($resultsql) > 0)
+    {
+        header("Location: admin.php?error=exist");
+    }
+    else
+    {
+
 	if($phone_number == '')
 	{
 		$phone_number = NULL;
@@ -23,7 +32,7 @@ if($_SESSION['username'] == "sadmin")
 	{
 		header("Location: admin.php");
 	}
-
+    }
 }
 
 ?>

@@ -89,6 +89,7 @@ body
 				<h1>Database project</h1><br>
 				<h4>Home</h4>
 				<h4>Admin</h4>
+				<h4>CCTV</h4>
 				<h4>Location</h4>
 				<h4>Video + Metalog</h4><br>
 				<a class="btn btn-default btn-lg block" href = "login.php">Login</a>
