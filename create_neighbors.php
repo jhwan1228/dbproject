@@ -11,7 +11,7 @@ if($_SESSION['username'] == "sadmin")
 	$nn = $_POST['neighbors_name'];
 
 	$sql4 = "SELECT * FROM neighbors WHERE neighbors_name = $nn";
-	$resultsql4 = mysqli_query($connection, $sql4);]
+	$resultsql4 = mysqli_query($connection, $sql4);
 	if(mysqli_num_rows($resultsql4) > 0)
 	{
 		header("Location: location.php?error=lul");
