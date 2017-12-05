@@ -738,6 +738,6 @@ else
 <!-- admin html goes here-->
 
 
-<?
+<?php
 }
 ?>

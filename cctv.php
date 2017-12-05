@@ -465,7 +465,7 @@ admin html goes here
 </html>
 
 
-<?
+<?php
 }
 ?>
 

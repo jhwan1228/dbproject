@@ -1,7 +1,7 @@
 <?php
 	session_start();
 
-// Date in the past
+    // Date in the past
 	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 	header("Cache-Control: no-cache");
 	header("Pragma: no-cache");
@@ -74,12 +74,11 @@
 				<div class = "form-group">
 					<input type = "password" class="form-control" name = "password" placeholder = "Password" required/>
 				</div>
-				
-				
 				<button type = "submit" class = "btn btn-default" name = "submit" value = "Login">Submit</button>
-				
 			</form>
 		</div>
 	</body>
-	<?php } ?>
+	<?php
+		}
+    ?>
 </html>

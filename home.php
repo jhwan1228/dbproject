@@ -6,7 +6,6 @@ if($_SESSION['username'] == "sadmin")
 {
 
 
-
 ?>
 
 <!--
@@ -15,19 +14,15 @@ sadmin html goes here
 
 
 <html>
-	
 	<head>
-		
 		<meta charset="utf-8">
 		<title>Home</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<!--link rel = "stylesheet" href = "style.css" /-->
-
 	</head>
 
 	<body>
-		
 		<nav class = "nav navbar-inverse">
 			<div class = "container-fluid">
 				<div class="collapse navbar-collapse" id=".navbar-collapse">
@@ -57,7 +52,6 @@ sadmin html goes here
 			<h1><p>Welcome <?php echo $_SESSION['username']; ?>!</p></h1>
 			<h1><?php echo $_SESSION['id']; ?></h1>
 			<h2>This is sadmin</h2>
-
 		</div>
 
 
@@ -77,7 +71,7 @@ sadmin html goes here
 </html>
 
 
-<?
+<?php
 }
 
 else
@@ -86,6 +80,8 @@ else
 
 <!--
 admin html goes here
+
+
 -->
 
 <h1><p>Welcome <?php echo $_SESSION['username']; ?>!</p></h1>
@@ -96,6 +92,6 @@ admin html goes here
 <a href = "logout.php">logout.php</a>
 
 
-<?
+<?php
 }
 ?>
