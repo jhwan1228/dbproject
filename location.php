@@ -783,6 +783,6 @@ admin html goes here
 <a href = "logout.php">logout.php</a>
 
 
-<?php
+<?
 }
 ?>

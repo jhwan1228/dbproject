@@ -7,8 +7,11 @@ if($_SESSION['username'] == "sadmin")
 {
 
 	$model_name = $_POST['model_name'];
-	$installation_date = $_POST['installation_date'];
+	$before_installation_date = $_POST['installation_date'];
 	$admin_id = $_POST['id'];
+
+	$installation_date_array = explode("-", $before_installation_date);
+	$installation_date = $installation_date_array[0] . $installation_date_array[1] . $installation_date_array[2]; 
 
 	
 

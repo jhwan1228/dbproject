@@ -153,6 +153,112 @@ if($_SESSION['username'] == "sadmin")
 
 		</div>
 
+		<div class = "container">
+			<h2>Search video with CCTV id</h2>
+			<form class="form-inline" method = "post" action = "vm.php?go">
+			  <div class="form-group">
+			    <label>CCTV id:</label>
+			    <input type="number" class="form-control" name="cctv_id" required>
+			  </div>
+			  <button type="submit" name = "search_submit5" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
+			</form>
+		
+
+		
+			<h3>Search results</h3>
+
+			<table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Video id</th>
+			        <th>Video file</th>
+			        <th>Metalog file</th>
+			        <th>Stats file</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+
+			<?php
+			if(isset($_POST['search_submit5']))
+			{
+			if(isset($_GET['go']))
+			{
+				//if($_POST['model_name'])
+				
+				$the_cctv_id = $_POST['cctv_id'];
+
+				
+
+
+				if($the_cctv_id) // search city only (a)
+				{
+					$sql = "SELECT * FROM video WHERE cctv_id = $the_cctv_id";
+				}
+				
+
+				
+
+
+				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
+				$resultsql = mysqli_query($connection, $sql);
+				while($row = mysqli_fetch_array($resultsql))
+				{
+					$result_file_name = $row['file_name'];
+					$result_video_id = $row['video_id'];
+					$result_file_name_array = explode("-", $result_file_name);
+					$result_file_time = $result_file_name_array[2];
+
+					
+						$sql2 = "SELECT * FROM video WHERE video_id = $result_video_id";
+						$resultsql2 = mysqli_query($connection, $sql2);
+						while($row2 = mysqli_fetch_array($resultsql2))
+						{
+							$the_file_name = $row2["file_name"];
+					      	$the_video_file = $the_file_name . ".mp4";
+					      	$the_metalog_file = $the_file_name . ".csv";
+					      	$the_stats_file = $the_file_name . "-s.csv";
+					      	$file_name_array = explode("-", $the_file_name);
+					      	$location_name = $file_name_array[1];
+					      	$path_name = "Files/" . $location_name . "/";
+					      	$the_video_path = $path_name . $the_video_file;
+					      	$the_metalog_path = $path_name . $the_metalog_file;
+					      	$the_stats_path = $path_name . $the_stats_file;
+					      	$download_video = "<a href = \"" . $the_video_path . "\">" . $the_video_file . "</a>";
+					      	$download_metalog = "<a href = \"" . $the_metalog_path . "\">" . $the_metalog_file . "</a>";
+					      	$download_stats = "<a href = \"" . $the_stats_path . "\">" . $the_stats_file . "</a>";
+					      	echo
+					      	"<tr>".
+					      	"<td>". $row2["video_id"] ."</td>".
+					      	"<td>". $download_video ."</td>".
+					      	"<td>". $download_metalog ."</td>".
+					      	"<td>". $download_stats ."</td>".
+					      	"</tr>";
+							
+						}
+					
+				}
+				
+			}
+			}
+			?>
+			</tbody>
+			</table>
+			<?php
+			if(isset($_POST['search_submit5']))
+			{
+				if(isset($_GET['go']))
+				{
+					echo "<a type=\"submit\" href = \"vm.php\" class=\"btn btn-primary\">Done</a>";
+				}
+			}
+			else
+			{
+				echo "<p>Please enter search query</p>";
+			}
+
+			?>
+		</div>
+
 
 		<div class = "container">
 			<h2>Search video with location</h2>
@@ -705,7 +811,16 @@ if($_SESSION['username'] == "sadmin")
 
 		</div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+     $(document).ready(function(){
+        $('.dropdown-toggle').dropdown()
+    });
+</script>
 
 
 	</body>
@@ -738,6 +853,6 @@ else
 <!-- admin html goes here-->
 
 
-<?php
+<?
 }
 ?>

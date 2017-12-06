@@ -1,7 +1,7 @@
 <?php
 	session_start();
 
-    // Date in the past
+// Date in the past
 	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 	header("Cache-Control: no-cache");
 	header("Pragma: no-cache");
@@ -49,6 +49,24 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	</head>
 
+	<style>
+		
+		body {background-color: #F1F1F1;}
+
+		.container
+		{
+			background-color: white;
+			padding-left: 50px;
+			padding-right: 50px;
+			padding-top: 15px;
+			padding-bottom: 50px;
+			margin-top: 10px;
+			border: 1px solid #E7E7E7;
+			border-radius: 5px;
+		}
+
+	</style>
+
 	<body>
 
 		<nav class = "nav navbar-inverse">
@@ -74,11 +92,12 @@
 				<div class = "form-group">
 					<input type = "password" class="form-control" name = "password" placeholder = "Password" required/>
 				</div>
+				
+				
 				<button type = "submit" class = "btn btn-default" name = "submit" value = "Login">Submit</button>
+				
 			</form>
 		</div>
 	</body>
-	<?php
-		}
-    ?>
+	<?php } ?>
 </html>

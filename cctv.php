@@ -86,7 +86,7 @@ sadmin html goes here
 		  <div class="form-group">
 		    <label class="control-label col-sm-2">Installation date:</label>
 		    <div class="col-sm-6"> 
-		      <input type="text" class="form-control" name="installation_date" placeholder="Enter installation date" required/>
+		      <input type="date" class="form-control" name="installation_date" placeholder="Enter installation date" required/>
 		    </div>
 		  </div>
 		  <div class="form-group">
@@ -342,71 +342,58 @@ admin html goes here
 		<title>CCTV</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<link rel = "stylesheet" href = "style.css" />
 
 	</head>
 
+	<style>
+		
+		body {background-color: #F1F1F1;}
+
+		.container
+		{
+			background-color: white;
+			padding-left: 50px;
+			padding-top: 15px;
+			padding-bottom: 15px;
+			margin-top: 10px;
+			border: 1px solid #E7E7E7;
+			border-radius: 5px;
+		}
+
+	</style>
+
 	<body>
 		
-		<nav class = "nav navbar-default">
+		<nav class = "nav navbar-inverse">
 			<div class = "container-fluid">
-				<div class = "navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
-        				<span class="sr-only">Toggle navigation</span>
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>
-        				<span class="icon-bar"></span>
-      				</button>
-						<a class = "navbar-brand" href="logout.php">Logout</a>
-				</div>
 				<div class="collapse navbar-collapse" id=".navbar-collapse">
+					<ul class = "nav navbar-nav">
+						<li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as <?php echo $_SESSION['username']; ?> <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a href="logout.php">Logout</a></li>
+				            <li><a href="edit_or_del_admin.php">Change personal info</a></li>
+				          </ul>
+				        </li>
+						
+					</ul>
+
 					<ul class = "nav navbar-nav navbar-right">
+						<li><a href = "home.php">Home</a></li>
 						<li><a href = "admin.php">Admin</a></li>
-						<li><a href = "#" style = "border-bottom: 3px solid #d200ff !important;">CCTV</a></li>
-						<li><a href = "#">Location</a></li>
-						<li><a href = "#">Video</a></li>
-						<li><a href = "#">Metalog</a></li>
+						<li class = "active"><a  style = "border-bottom: 3px solid #d200ff !important;">CCTV</a></li>
+						<li><a href = "location.php">Location</a></li>
+						<li><a href = "vm.php">Video + Metalog</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		<br>
-		
-
-		<div class = "container">
-		<p>Welcome <?php echo $_SESSION['username']; ?>!</p>
-		<h1>CCTV</h1>
-		</div>
 
 		
 
 		<div class = "container">
-			<h3>Search</h3>
-			<form class="form-inline">
-			  <div class="form-group">
-			    <label for="">CCTV id:</label>
-			    <input type="text" class="form-control" id="">
-			  </div>
-			  <div class="form-group">
-			    <label for="">Model name:</label>
-			    <input type="text" class="form-control" id="">
-			  </div>
-			  <div class="form-group">
-			    <label for="">Installation date:</label>
-			    <input type="text" class="form-control" id="">
-			  </div>
-			  <div class="form-group">
-			    <label for="">Admin-in-charge:</label>
-			    <input type="text" class="form-control" id="">
-			  </div>
-			  <button type="submit" class="btn btn-default">Submit</button>
-			</form>
-		</div>
-		<br>
-		<br>
-
-		<div class = "container">
-			
+			<h2>Assigned CCTV list</h2>
 			  <p>The .table-hover class enables a hover state on table rows:</p>            
 			  <table class="table table-hover">
 			    <thead>
@@ -456,6 +443,17 @@ admin html goes here
 			  </table>
 		</div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+     $(document).ready(function(){
+        $('.dropdown-toggle').dropdown()
+    });
+</script>
+
 
 	</body>
 
@@ -465,7 +463,7 @@ admin html goes here
 </html>
 
 
-<?php
+<?
 }
 ?>
 
