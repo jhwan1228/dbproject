@@ -163,6 +163,134 @@ if($_SESSION['username'] == "sadmin")
 			  <button type="submit" name = "search_submit5" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
 			</form>
 		
+			<h3>Search result stats</h3>
+
+			<table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Object total</th>
+			        <th>avg(x)</th>
+			        <th>avg(y)</th>
+			        <th>avg(size)</th>
+			        <th>avg(speed)</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+
+			<?php
+			if(isset($_POST['search_submit5']))
+			{
+			if(isset($_GET['go']))
+			{
+				//if($_POST['model_name'])
+				
+				$the_cctv_id = $_POST['cctv_id'];
+
+				// stats file columns: timeend,object,avg(x),avg(y),avg(size),avg(speed) 
+				// stats file example: 20170101055959,object2,42.6119444444,124.622777778,200,90.1258333333
+
+
+				if($the_cctv_id) // search city only (a)
+				{
+					$sql = "SELECT * FROM video WHERE cctv_id = $the_cctv_id";
+				}
+				
+
+				$object_total = 0;
+				$x_total = 0;
+				$y_total = 0;
+				$size_total = 0;
+				$speed_total = 0;
+
+
+				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
+				$resultsql = mysqli_query($connection, $sql);
+				while($row = mysqli_fetch_array($resultsql))
+				{
+					$result_file_name = $row['file_name'];
+					$result_video_id = $row['video_id'];
+					$result_file_name_array = explode("-", $result_file_name);
+					$result_file_time = $result_file_name_array[2];
+
+					
+						$sql2 = "SELECT * FROM video WHERE video_id = $result_video_id";
+						$resultsql2 = mysqli_query($connection, $sql2);
+						while($row2 = mysqli_fetch_array($resultsql2))
+						{
+							$the_file_name = $row2["file_name"];
+					      	$the_video_file = $the_file_name . ".mp4";
+					      	$the_metalog_file = $the_file_name . ".csv";
+					      	$the_stats_file = $the_file_name . "-s.csv";
+					      	$file_name_array = explode("-", $the_file_name);
+					      	$location_name = $file_name_array[1];
+					      	$path_name = "Files/" . $location_name . "/";
+					      	$the_video_path = $path_name . $the_video_file;
+					      	$the_metalog_path = $path_name . $the_metalog_file;
+					      	$the_stats_path = $path_name . $the_stats_file;
+					      	$download_video = "<a href = \"" . $the_video_path . "\">" . $the_video_file . "</a>";
+					      	$download_metalog = "<a href = \"" . $the_metalog_path . "\">" . $the_metalog_file . "</a>";
+					      	$download_stats = "<a href = \"" . $the_stats_path . "\">" . $the_stats_file . "</a>";
+					      	//echo
+					      	//"<tr>".
+					      	//"<td>". $row2["video_id"] ."</td>".
+					      	//"<td>". $download_video ."</td>".
+					      	//"<td>". $download_metalog ."</td>".
+					      	//"<td>". $download_stats ."</td>".
+					      	//"</tr>";
+					      	//echo $the_stats_path;
+					      	$myfile = fopen($the_stats_path, "r"); //or die("Unable to open file");
+					      	$the_line = fgets($myfile);
+					      	$line_array = explode(",", $the_line);
+					      	$object_total += 1;
+					      	$x_total += $line_array[2];
+					      	$y_total += $line_array[3];
+					      	$size_total += $line_array[4];
+					      	$speed_total += $line_array[5];
+
+
+					      	fclose($myfile);
+
+							
+						}
+
+						//$final_object = $object_total;
+						//$final_x = $x_total / $object_total;
+						//$final_y = $y_total / $object_total;
+						//$final_size = $size_total / $object_total;
+						//$final_speed = $speed_total / $object_total;
+
+
+						//echo
+					    //"<tr>".
+					    //"<td>". $final_object ."</td>".
+					    //"<td>". $final_x ."</td>".
+					    //"<td>". $final_y ."</td>".
+					    //"<td>". $final_size ."</td>".
+					    //"<td>". $final_speed ."</td>".
+					    //"</tr>";
+					
+				}
+				$final_object = $object_total;
+				$final_x = $x_total / $object_total;
+				$final_y = $y_total / $object_total;
+				$final_size = $size_total / $object_total;
+				$final_speed = $speed_total / $object_total;
+
+
+				echo
+				"<tr>".
+				"<td>". $final_object ."</td>".
+				"<td>". $final_x ."</td>".
+				"<td>". $final_y ."</td>".
+				"<td>". $final_size ."</td>".
+				"<td>". $final_speed ."</td>".
+				"</tr>";
+				
+			}
+			}
+			?>
+			</tbody>
+			</table>
 
 		
 			<h3>Search results</h3>
@@ -286,7 +414,216 @@ if($_SESSION['username'] == "sadmin")
 			  <button type="submit" name = "search_submit" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
 			</form>
 		
+			<h3>Search result stats</h3>
 
+			<table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Object total</th>
+			        <th>avg(x)</th>
+			        <th>avg(y)</th>
+			        <th>avg(size)</th>
+			        <th>avg(speed)</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+
+			<?php
+			if(isset($_POST['search_submit']))
+			{
+			if(isset($_GET['go']))
+			{
+				//if($_POST['model_name'])
+				
+				$city = $_POST['city'];
+				$province = $_POST['province'];
+				$bld_name = $_POST['bld_name'];
+				$floor_number = $_POST['floor_number'];
+				$details = $_POST['details'];
+
+				if($city && !$province && !$bld_name && !$floor_number && !$details) // search city only (a)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city'";
+				}
+				else if(!$city && $province && !$bld_name && !$floor_number && !$details) // search province only (b)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province'";
+				}
+				else if(!$city && !$province && $bld_name && !$floor_number && !$details) // search building name only (c)
+				{
+					$sql = "SELECT * FROM location WHERE bld_name = '$bld_name'";
+				}
+				else if(!$city && !$province && !$bld_name && $floor_number && !$details) // search floor number only (d)
+				{
+					$sql = "SELECT * FROM location WHERE floor_number = '$floor_number'";
+				}
+				else if(!$city && !$province && !$bld_name && !$floor_number && $details) // search details only (e)
+				{
+					$sql = "SELECT * FROM location WHERE details = '$details'";
+				}
+				else if($city && $province && !$bld_name && !$floor_number && !$details) // search city and province (ab)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province'";
+				}
+				else if($city && !$province && $bld_name && !$floor_number && !$details) // search city and building name (ac)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND bld_name = '$bld_name'";
+				}
+				else if($city && !$province && !$bld_name && $floor_number && !$details) // search city and floor number (ad)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND floor_number = '$floor_number'";
+				}
+				else if($city && !$province && !$bld_name && !$floor_number && $details) // search city and details (ae)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND details = '$details'";
+				}
+				else if(!$city && $province && $bld_name && !$floor_number && !$details) // search province and building name (bc)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province' AND bld_name = '$bld_name'";
+				}
+				else if(!$city && $province && !$bld_name && $floor_number && !$details) // search province and floor number (bd)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province' AND floor_number = '$floor_number'";
+				}
+				else if(!$city && $province && !$bld_name && !$floor_number && $details) // search province and details (be)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province' AND details = '$details'";
+				}
+				else if(!$city && !$province && $bld_name && $floor_number && !$details) // search building name and floor number (cd)
+				{
+					$sql = "SELECT * FROM location WHERE bld_name = '$bld_name' AND floor_number = '$floor_number'";
+				}
+				else if(!$city && !$province && $bld_name && !$floor_number && $details) // search building name and details (ce)
+				{
+					$sql = "SELECT * FROM location WHERE bld_name = '$bld_name' AND details = '$details'";
+				}
+				else if(!$city && !$province && !$bld_name && $floor_number && $details) // search floor_number and details (de)
+				{
+					$sql = "SELECT * FROM location WHERE floor_number = '$floor_number' AND details = '$details'";
+				}
+				else if($city && $province && $bld_name && !$floor_number && !$details) // search city, province and building name (abc)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND bld_name = '$bld_name'";
+				}
+				else if($city && $province && !$bld_name && $floor_number && !$details) // search city, province and floor number (abd)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND floor_number = '$floor_number'";
+				}
+				else if($city && $province && !$bld_name && !$floor_number && $details) // search city, province and details (abe)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND details = '$details'";
+				}
+				else if($city && !$province && $bld_name && $floor_number && !$details) // search city, building name, and floor number (acd)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND bld_name = '$bld_name' AND floor_number = '$floor_number'";
+				}
+				else if($city && !$province && $bld_name && !$floor_number && $details) // search city, building name, and details (ace)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND bld_name = '$bld_name' AND details = '$details'";
+				}
+				else if($city && !$province && !$bld_name && $floor_number && $details) // search city, floor number, and details (ade)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND floor_number = '$floor_number' AND details = '$details'";
+				}
+				else if(!$city && $province && $bld_name && $floor_number && !$details) // search province, building name, and floor number (bcd)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province' AND bld_name = '$bld_name' AND floor_number = '$floor_number'";
+				}
+				else if(!$city && $province && $bld_name && !$floor_number && $details) // search province, building name, and details (bce)
+				{
+					$sql = "SELECT * FROM location WHERE province = '$province' AND bld_name = '$bld_name' AND details = '$details'";
+				}
+				else if(!$city && !$province && $bld_name && $floor_number && $details) // search building name, floor number, and details (cde)
+				{
+					$sql = "SELECT * FROM location WHERE bld_name = '$bld_name' AND floor_number = '$floor_number' AND details = '$details'";
+				}
+				else if($city && $province && $bld_name && $floor_number && !$details) // search city, province, building name, and floor number (abcd)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND bld_name = '$bld_name' AND floor_number = '$floor_number'";
+				}
+				else if($city && $province && $bld_name && !$floor_number && $details) // search city, province, building name, and details (abce)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND bld_name = '$bld_name' AND details = '$details'";
+				}
+				else if($city && $province && $bld_name && $floor_number && $details) // search city, province, building name, floor number and details (abcde)
+				{
+					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND bld_name = '$bld_name' AND floor_number = '$floor_number' AND details = '$details'";
+				}
+
+				$object_total = 0;
+				$x_total = 0;
+				$y_total = 0;
+				$size_total = 0;
+				$speed_total = 0;
+
+
+				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
+				$resultsql = mysqli_query($connection, $sql);
+				while($row = mysqli_fetch_array($resultsql))
+				{
+					$result_location_id = $row['location_id'];
+					$result_city = $row['city'];
+					$result_province = $row['province'];
+					$result_bld_name = $row['bld_name'];
+					$result_floor_number = $row['floor_number'];
+					$result_details = $row['details'];
+
+					$sql2 = "SELECT * FROM video";
+					$resultsql2 = mysqli_query($connection, $sql2);
+					while($row2 = mysqli_fetch_array($resultsql2))
+					{
+						$location_search_file_array = explode("-", $row2['file_name']);
+						if($location_search_file_array[1] == $result_details)
+						{
+							$the_file_name = $row2["file_name"];
+				      		$the_video_file = $the_file_name . ".mp4";
+				      		$the_metalog_file = $the_file_name . ".csv";
+				      		$the_stats_file = $the_file_name . "-s.csv";
+				      		$file_name_array = explode("-", $the_file_name);
+				      		$location_name = $file_name_array[1];
+				      		$path_name = "Files/" . $location_name . "/";
+				      		$the_video_path = $path_name . $the_video_file;
+				      		$the_metalog_path = $path_name . $the_metalog_file;
+				      		$the_stats_path = $path_name . $the_stats_file;
+				      		$download_video = "<a href = \"" . $the_video_path . "\">" . $the_video_file . "</a>";
+				      		$download_metalog = "<a href = \"" . $the_metalog_path . "\">" . $the_metalog_file . "</a>";
+				      		$download_stats = "<a href = \"" . $the_stats_path . "\">" . $the_stats_file . "</a>";
+
+				      		$myfile = fopen($the_stats_path, "r"); //or die("Unable to open file");
+					      	$the_line = fgets($myfile);
+					      	$line_array = explode(",", $the_line);
+					      	$object_total += 1;
+					      	$x_total += $line_array[2];
+					      	$y_total += $line_array[3];
+					      	$size_total += $line_array[4];
+					      	$speed_total += $line_array[5];
+
+
+					      	fclose($myfile);
+						}
+					}
+				}
+				$final_object = $object_total;
+				$final_x = $x_total / $object_total;
+				$final_y = $y_total / $object_total;
+				$final_size = $size_total / $object_total;
+				$final_speed = $speed_total / $object_total;
+
+
+				echo
+				"<tr>".
+				"<td>". $final_object ."</td>".
+				"<td>". $final_x ."</td>".
+				"<td>". $final_y ."</td>".
+				"<td>". $final_size ."</td>".
+				"<td>". $final_speed ."</td>".
+				"</tr>";
+				
+			}
+			}
+			?>
+			</tbody>
+			</table>
 		
 			<h3>Search results</h3>
 
@@ -504,7 +841,122 @@ if($_SESSION['username'] == "sadmin")
 			  <button type="submit" name = "search_submit3" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
 			</form>
 		
+			<h3>Search result stats</h3>
 
+			<table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Object total</th>
+			        <th>avg(x)</th>
+			        <th>avg(y)</th>
+			        <th>avg(size)</th>
+			        <th>avg(speed)</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+
+			<?php
+			if(isset($_POST['search_submit3']))
+			{
+			if(isset($_GET['go']))
+			{
+				//if($_POST['model_name'])
+				
+				$date_before = $_POST['date'];
+				$time_before = $_POST['time'];
+
+				$date_before_array = explode("-", $date_before);
+				$date_after = $date_before_array[0] . $date_before_array[1] . $date_before_array[2];
+
+				$time_before_array = explode(":", $time_before);
+				$time_after = $time_before_array[0] . $time_before_array[1];
+
+				$timeall = $date_after . $time_after . "00";
+
+
+				if($date_before && $time_before) // search city only (a)
+				{
+					$sql = "SELECT * FROM video";
+				}
+				
+				$object_total = 0;
+				$x_total = 0;
+				$y_total = 0;
+				$size_total = 0;
+				$speed_total = 0;
+				
+
+
+				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
+				$resultsql = mysqli_query($connection, $sql);
+				while($row = mysqli_fetch_array($resultsql))
+				{
+					$result_file_name = $row['file_name'];
+					$result_video_id = $row['video_id'];
+					$result_file_name_array = explode("-", $result_file_name);
+					$result_file_time = $result_file_name_array[2];
+					//echo $result_file_time;
+					//echo $timeall . " ";
+
+					if($result_file_time == $timeall)
+					{
+						//echo $timeall . " ";
+						$sql2 = "SELECT * FROM video WHERE video_id = $result_video_id";
+						$resultsql2 = mysqli_query($connection, $sql2);
+						while($row2 = mysqli_fetch_array($resultsql2))
+						{
+							//$location_search_file_array = explode("-", $row2['file_name']);
+							//if($location_search_file_array[1] == $result_details)
+							//{
+								$the_file_name = $row2["file_name"];
+					      		$the_video_file = $the_file_name . ".mp4";
+					      		$the_metalog_file = $the_file_name . ".csv";
+					      		$the_stats_file = $the_file_name . "-s.csv";
+					      		$file_name_array = explode("-", $the_file_name);
+					      		$location_name = $file_name_array[1];
+					      		$path_name = "Files/" . $location_name . "/";
+					      		$the_video_path = $path_name . $the_video_file;
+					      		$the_metalog_path = $path_name . $the_metalog_file;
+					      		$the_stats_path = $path_name . $the_stats_file;
+					      		$download_video = "<a href = \"" . $the_video_path . "\">" . $the_video_file . "</a>";
+					      		$download_metalog = "<a href = \"" . $the_metalog_path . "\">" . $the_metalog_file . "</a>";
+					      		$download_stats = "<a href = \"" . $the_stats_path . "\">" . $the_stats_file . "</a>";
+					      		$myfile = fopen($the_stats_path, "r"); //or die("Unable to open file");
+						      	$the_line = fgets($myfile);
+						      	$line_array = explode(",", $the_line);
+						      	$object_total += 1;
+						      	$x_total += $line_array[2];
+						      	$y_total += $line_array[3];
+						      	$size_total += $line_array[4];
+						      	$speed_total += $line_array[5];
+
+
+						      	fclose($myfile);
+							//}
+						}
+					}
+				}
+				$final_object = $object_total;
+				$final_x = $x_total / $object_total;
+				$final_y = $y_total / $object_total;
+				$final_size = $size_total / $object_total;
+				$final_speed = $speed_total / $object_total;
+
+
+				echo
+				"<tr>".
+				"<td>". $final_object ."</td>".
+				"<td>". $final_x ."</td>".
+				"<td>". $final_y ."</td>".
+				"<td>". $final_size ."</td>".
+				"<td>". $final_speed ."</td>".
+				"</tr>";
+				
+			}
+			}
+			?>
+			</tbody>
+			</table>
 		
 			<h3>Search results</h3>
 
@@ -624,7 +1076,132 @@ if($_SESSION['username'] == "sadmin")
 			  </div>
 			  <button type="submit" name = "search_submit2" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
 			</form>
-		
+			
+			<h3>Search result stats</h3>
+
+			<table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Object total</th>
+			        <th>avg(x)</th>
+			        <th>avg(y)</th>
+			        <th>avg(size)</th>
+			        <th>avg(speed)</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+
+			<?php
+			if(isset($_POST['search_submit2']))
+			{
+			if(isset($_GET['go']))
+			{
+				//if($_POST['model_name'])
+				
+				$sequence_name = $_POST['sequence_name'];
+
+				if($sequence_name)
+				{
+					$sql3 = "SELECT * FROM sequence WHERE sequence_name = '$sequence_name'";
+				}
+				
+
+				$object_total = 0;
+				$x_total = 0;
+				$y_total = 0;
+				$size_total = 0;
+				$speed_total = 0;
+
+
+				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
+				$resultsql3 = mysqli_query($connection, $sql3);
+				while($row3 = mysqli_fetch_array($resultsql3))
+				{
+					$neighbors_list_substring = substr($row3['neighbors_list'], 1);
+					$result_neighbors_list_array = explode("-", $neighbors_list_substring);
+					$total_result_neighbors_list_array = count($result_neighbors_list_array);
+					//echo "success 1";
+
+					for($i = 0; $i < $total_result_neighbors_list_array; $i++)
+					{
+						$the_result_neighbors_list_array = $result_neighbors_list_array[$i];
+						$sql4 = "SELECT * FROM neighbors_of WHERE neighbors_id = $the_result_neighbors_list_array";
+						$resultsql4 = mysqli_query($connection, $sql4);
+						//echo "success 2";
+						//echo $result_neighbors_list_array[$i];
+						while($row4 = mysqli_fetch_array($resultsql4))
+						{
+							//echo "success 3";
+							$the_row4_location_id = $row4['location_id'];
+							$sql5 = "SELECT * FROM location WHERE location_id = $the_row4_location_id";
+							$resultsql5 = mysqli_query($connection, $sql5);
+							while($row5 = mysqli_fetch_array($resultsql5))
+							{
+								//echo "success 4";
+								$result_details = $row5['details'];
+								$sql2 = "SELECT * FROM video";
+								$resultsql2 = mysqli_query($connection, $sql2);
+								while($row2 = mysqli_fetch_array($resultsql2))
+								{
+									//echo "success 4";
+									$location_search_file_array = explode("-", $row2['file_name']);
+									if($location_search_file_array[1] == $result_details)
+									{
+										//echo "success 5";
+										$the_file_name = $row2["file_name"];
+							      		$the_video_file = $the_file_name . ".mp4";
+							      		$the_metalog_file = $the_file_name . ".csv";
+							      		$the_stats_file = $the_file_name . "-s.csv";
+							      		$file_name_array = explode("-", $the_file_name);
+							      		$location_name = $file_name_array[1];
+							      		$path_name = "Files/" . $location_name . "/";
+							      		$the_video_path = $path_name . $the_video_file;
+							      		$the_metalog_path = $path_name . $the_metalog_file;
+							      		$the_stats_path = $path_name . $the_stats_file;
+							      		$download_video = "<a href = \"" . $the_video_path . "\">" . $the_video_file . "</a>";
+							      		$download_metalog = "<a href = \"" . $the_metalog_path . "\">" . $the_metalog_file . "</a>";
+							      		$download_stats = "<a href = \"" . $the_stats_path . "\">" . $the_stats_file . "</a>";
+							      		$myfile = fopen($the_stats_path, "r"); //or die("Unable to open file");
+								      	$the_line = fgets($myfile);
+								      	$line_array = explode(",", $the_line);
+								      	$object_total += 1;
+								      	$x_total += $line_array[2];
+								      	$y_total += $line_array[3];
+								      	$size_total += $line_array[4];
+								      	$speed_total += $line_array[5];
+
+
+								      	fclose($myfile);
+									}
+								}
+							}
+						}
+					}
+
+
+					
+				}
+				$final_object = $object_total;
+				$final_x = $x_total / $object_total;
+				$final_y = $y_total / $object_total;
+				$final_size = $size_total / $object_total;
+				$final_speed = $speed_total / $object_total;
+
+
+				echo
+				"<tr>".
+				"<td>". $final_object ."</td>".
+				"<td>". $final_x ."</td>".
+				"<td>". $final_y ."</td>".
+				"<td>". $final_size ."</td>".
+				"<td>". $final_speed ."</td>".
+				"</tr>";
+				
+			}
+			}
+			?>
+			</tbody>
+			</table>	
 
 		
 			<h3>Search results</h3>
