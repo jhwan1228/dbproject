@@ -838,12 +838,6 @@ admin html goes here
 		</nav>
 		<br>
 
-		<div class = "container">
-			<h1><p>Welcome <?php echo $_SESSION['username']; ?>!</p></h1>
-			<h1><?php echo $_SESSION['id']; ?></h1>
-			<h2>This is sadmin</h2>
-
-		</div>
 
 		<div class = "container">
 

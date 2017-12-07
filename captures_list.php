@@ -88,8 +88,7 @@ if(mysqli_num_rows($result2) > 0)
 						<li><a href = "admin.php">Admin</a></li>
 						<li class = "active"><a href = "#"  style = "border-bottom: 3px solid #d200ff !important;">CCTV</a></li>
 						<li><a href = "location.php">Location</a></li>
-						<li><a href = "#">Video</a></li>
-						<li><a href = "#">Metalog</a></li>
+						<li><a href = "vm.php">Video + Metalog</a></li>
 					</ul>
 				</div>
 			</div>
@@ -151,7 +150,6 @@ if(mysqli_num_rows($result2) > 0)
 			        <th>City</th>
 			        <th>Province</th>
 			        <th>Building name</th>
-			        <th>Building number</th>
 			        <th>Floor number</th>
 			        <th>Details</th>
 			        <th>Settings</th>
@@ -183,7 +181,6 @@ if(mysqli_num_rows($result2) > 0)
 					      		"<td>". $row3["city"] ."</td>".
 					      		"<td>". $row3["province"] ."</td>".
 					      		"<td>". $row3["bld_name"] ."</td>".
-					      		"<td>". $row3["bld_number"] ."</td>".
 					      		"<td>". $row3["floor_number"] ."</td>".
 					      		"<td>". $row3["details"] ."</td>".
 					      		"<td>
