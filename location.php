@@ -420,6 +420,7 @@ sadmin html goes here
 			        <th>Building name</th>
 			        <th>Floor number</th>
 			        <th>Details</th>
+			        <th>Settings</th>
 			      </tr>
 			    </thead>
 			    <tbody>
@@ -443,7 +444,13 @@ sadmin html goes here
 			      		"<td>". $row["bld_name"] ."</td>".
 			      		"<td>". $row["floor_number"] ."</td>".
 			      		"<td>". $row["details"] ."</td>".
-			      		"</tr>";
+			      		"<td>
+			      		<form method = \"post\" action = \"edit_or_del_location.php\">
+			      		<input type=\"hidden\" name = \"qty\" value = \"". mysqli_num_rows($result) ."\">
+			      		<button type = \"submit\" class = \"btn btn-default\" name = \"e". $row["location_id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-pencil\" aria-hidden = \"true\"></span></button></form>
+
+			      		</td>"
+			      		."</tr>";
 			      	}
 			      }
 			      else
@@ -775,12 +782,220 @@ else
 admin html goes here
 -->
 
-<h1><p>Welcome <?php echo $_SESSION['username']; ?>!</p></h1>
-<h1><?php echo $_SESSION['id']; ?></h1>
-<h2>This is admin</h2>
-<a href = "admin.php">admin.php</a><br>
-<a href = "cctv.php">admin.php</a><br>
-<a href = "logout.php">logout.php</a>
+<html>
+	
+	<head>
+		
+		<meta charset="utf-8">
+		<title>Home</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<!--link rel = "stylesheet" href = "style.css" /-->
+
+	</head>
+	<style>
+
+		body {background-color: #F1F1F1;}
+
+		.container
+		{
+			background-color: white;
+			padding-left: 50px;
+			padding-top: 15px;
+			padding-bottom: 15px;
+			margin-top: 10px;
+			border: 1px solid #E7E7E7;
+			border-radius: 5px;
+		}
+
+	</style>
+
+	<body>
+		
+		<nav class = "nav navbar-inverse">
+			<div class = "container-fluid">
+				<div class="collapse navbar-collapse" id=".navbar-collapse">
+					<ul class = "nav navbar-nav">
+						<li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as <?php echo $_SESSION['username']; ?> <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a href="logout.php">Logout</a></li>
+				            <li><a href="edit_or_del_admin.php">Change personal info</a></li>
+				          </ul>
+				        </li>
+						
+					</ul>
+
+					<ul class = "nav navbar-nav navbar-right">
+						<li><a>Home</a></li>
+						<li><a href = "admin.php" >Admin</a></li>
+						<li><a href = "cctv.php">CCTV</a></li>
+						<li class = "active"><a href = "location.php" style = "border-bottom: 3px solid #d200ff !important;">Location</a></li>
+						<li><a href = "vm.php">Video + Metalog</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<br>
+
+		<div class = "container">
+			<h1><p>Welcome <?php echo $_SESSION['username']; ?>!</p></h1>
+			<h1><?php echo $_SESSION['id']; ?></h1>
+			<h2>This is sadmin</h2>
+
+		</div>
+
+		<div class = "container">
+
+		<h2>Assign CCTV to location</h2>
+
+		<form class="form-horizontal" action = "assign_cctv_to_location.php" method = "post">
+		  <div class="form-group">
+			  <label class = "control-label col-sm-2" for="sel1">Select cctv:</label>
+			  <div class = "col-sm-3">
+			  <select class="form-control" name="cctv_id">
+
+				<?php
+
+				require("db.php");
+
+				$the_id = $_SESSION['id'];
+
+				$query = "SELECT * FROM cctv WHERE admin_id = $the_id";
+				$result = mysqli_query($connection, $query);
+				while($r = mysqli_fetch_array($result))
+				{
+					echo "<option value =" . $r['cctv_id'] . ">" . $r['cctv_id'] . "</option>";
+				}
+
+				?>
+			  </select>
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label class = "control-label col-sm-2" for="sel1">Select location:</label>
+			  <div class = "col-sm-3">
+			  <select class="form-control" name="location_id">
+
+				<?php
+
+				require("db.php");
+
+				$query = "SELECT * FROM location";
+				$result = mysqli_query($connection, $query);
+				while($r = mysqli_fetch_array($result))
+				{
+					echo "<option value =" . $r['location_id'] . ">" . $r['details'] . "</option>";
+				}
+
+				?>
+			  </select>
+			  </div>
+			</div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-10">
+		      <button type="submit" class="btn btn-default">Assign</button>
+		    </div>
+		  </div>
+		</form>
+
+
+		</div>
+
+		<div class = "container">
+
+			<h3>Location table</h3>
+
+			  <p>The .table-hover class enables a hover state on table rows:</p>
+			  <table class="table table-hover">
+			    <thead>
+			      <tr>
+			        <th>Location id</th>
+			        <th>City</th>
+			        <th>Province</th>
+			        <th>Building name</th>
+			        <th>Floor number</th>
+			        <th>Details</th>
+			        <th>Settings</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+
+
+			    <?php
+			      require("db.php");
+
+			      $query1 = "SELECT * FROM cctv WHERE admin_id = $the_id";
+			      $result1 = mysqli_query($connection, $query1);
+			      while($r1 = mysqli_fetch_array($result1))
+					{
+						$the_cctv_id = $r1['cctv_id'];
+						$query2 = "SELECT * FROM captures WHERE cctv_id = $the_cctv_id";
+						$result2 = mysqli_query($connection, $query2);
+						while($r2 = mysqli_fetch_array($result2))
+						{
+							$the_location_id = $r2['location_id'];
+							$sql = "SELECT * FROM location WHERE location_id = $the_location_id";
+						      $resultsql = mysqli_query($connection, $sql);
+
+						      if(mysqli_num_rows($resultsql) > 0)
+						      {
+						      	while($row = mysqli_fetch_array($resultsql))
+						      	{
+						      		echo
+						      		"<tr>".
+						      		"<td>". $row["location_id"] ."</td>".
+						      		"<td>". $row["city"] ."</td>".
+						      		"<td>". $row["province"] ."</td>".
+						      		"<td>". $row["bld_name"] ."</td>".
+						      		"<td>". $row["floor_number"] ."</td>".
+						      		"<td>". $row["details"] ."</td>".
+						      		"<td>
+						      		<form method = \"post\" action = \"edit_or_del_location.php\">
+						      		<input type=\"hidden\" name = \"qty\" value = \"". mysqli_num_rows($result) ."\">
+						      		<button type = \"submit\" class = \"btn btn-default\" name = \"e". $row["location_id"] ."\" value = \"9\"><span class = \"glyphicon glyphicon-pencil\" aria-hidden = \"true\"></span></button></form>
+
+						      		</td>"
+						      		."</tr>";
+						      	}
+						      }
+						      else
+						      {
+						      	echo "<h3>No locations</h3>";
+						      }
+						}
+					}
+
+
+			      
+			      mysqli_close($connection);
+
+			      ?>
+
+
+			    </tbody>
+			  </table>
+		</div>
+
+
+
+
+
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+     $(document).ready(function(){
+        $('.dropdown-toggle').dropdown()
+    });
+</script>
+		
+
+
+	</body>
+
+</html>
 
 
 <?

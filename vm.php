@@ -1242,34 +1242,34 @@ if($_SESSION['username'] == "sadmin")
 					$neighbors_list_substring = substr($row3['neighbors_list'], 1);
 					$result_neighbors_list_array = explode("-", $neighbors_list_substring);
 					$total_result_neighbors_list_array = count($result_neighbors_list_array);
-					//echo "success 1";
+					echo "success1" . " ";
 
 					for($i = 0; $i < $total_result_neighbors_list_array; $i++)
 					{
 						$the_result_neighbors_list_array = $result_neighbors_list_array[$i];
 						$sql4 = "SELECT * FROM neighbors_of WHERE neighbors_id = $the_result_neighbors_list_array";
 						$resultsql4 = mysqli_query($connection, $sql4);
-						//echo "success 2";
+						echo "success2" . " ";
 						//echo $result_neighbors_list_array[$i];
 						while($row4 = mysqli_fetch_array($resultsql4))
 						{
-							//echo "success 3";
+							echo "success3" . " ";
 							$the_row4_location_id = $row4['location_id'];
 							$sql5 = "SELECT * FROM location WHERE location_id = $the_row4_location_id";
 							$resultsql5 = mysqli_query($connection, $sql5);
 							while($row5 = mysqli_fetch_array($resultsql5))
 							{
-								//echo "success 4";
+								echo "success4" . " ";
 								$result_details = $row5['details'];
 								$sql2 = "SELECT * FROM video";
 								$resultsql2 = mysqli_query($connection, $sql2);
 								while($row2 = mysqli_fetch_array($resultsql2))
 								{
-									//echo "success 4";
+									echo "success4" . " ";
 									$location_search_file_array = explode("-", $row2['file_name']);
 									if($location_search_file_array[1] == $result_details)
 									{
-										//echo "success 5";
+										echo "success5" . " ";
 										$the_file_name = $row2["file_name"];
 							      		$the_video_file = $the_file_name . ".mp4";
 							      		$the_metalog_file = $the_file_name . ".csv";
