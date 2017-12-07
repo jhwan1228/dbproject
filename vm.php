@@ -7,6 +7,10 @@ if($_GET['error'] == "upload_failed")
 {
 	echo "<script type=\"text/javascript\">alert(\"Upload failed.\")</script>";
 }
+if($_GET['error'] == "timefail")
+{
+	echo "<script type=\"text/javascript\">alert(\"Search video with time failed.\")</script>";
+}
 
 if($_SESSION['username'] == "sadmin")
 {
@@ -835,128 +839,16 @@ if($_SESSION['username'] == "sadmin")
 			    <input type="date" class="form-control" name="date" required>
 			  </div>
 			  <div class="form-group">
-			    <label>Time:</label>
-			    <input type="time" class="form-control" name="time" required>
+			    <label>Time start:</label>
+			    <input type="time" class="form-control" name="time1" required>
+			  </div>
+			  <div class="form-group">
+			    <label>Time end:</label>
+			    <input type="time" class="form-control" name="time2" required>
 			  </div>
 			  <button type="submit" name = "search_submit3" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
 			</form>
 		
-			<h3>Search result stats</h3>
-
-			<table class="table table-hover">
-			    <thead>
-			      <tr>
-			        <th>Object total</th>
-			        <th>avg(x)</th>
-			        <th>avg(y)</th>
-			        <th>avg(size)</th>
-			        <th>avg(speed)</th>
-			      </tr>
-			    </thead>
-			    <tbody>
-
-			<?php
-			if(isset($_POST['search_submit3']))
-			{
-			if(isset($_GET['go']))
-			{
-				//if($_POST['model_name'])
-				
-				$date_before = $_POST['date'];
-				$time_before = $_POST['time'];
-
-				$date_before_array = explode("-", $date_before);
-				$date_after = $date_before_array[0] . $date_before_array[1] . $date_before_array[2];
-
-				$time_before_array = explode(":", $time_before);
-				$time_after = $time_before_array[0] . $time_before_array[1];
-
-				$timeall = $date_after . $time_after . "00";
-
-
-				if($date_before && $time_before) // search city only (a)
-				{
-					$sql = "SELECT * FROM video";
-				}
-				
-				$object_total = 0;
-				$x_total = 0;
-				$y_total = 0;
-				$size_total = 0;
-				$speed_total = 0;
-				
-
-
-				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
-				$resultsql = mysqli_query($connection, $sql);
-				while($row = mysqli_fetch_array($resultsql))
-				{
-					$result_file_name = $row['file_name'];
-					$result_video_id = $row['video_id'];
-					$result_file_name_array = explode("-", $result_file_name);
-					$result_file_time = $result_file_name_array[2];
-					//echo $result_file_time;
-					//echo $timeall . " ";
-
-					if($result_file_time == $timeall)
-					{
-						//echo $timeall . " ";
-						$sql2 = "SELECT * FROM video WHERE video_id = $result_video_id";
-						$resultsql2 = mysqli_query($connection, $sql2);
-						while($row2 = mysqli_fetch_array($resultsql2))
-						{
-							//$location_search_file_array = explode("-", $row2['file_name']);
-							//if($location_search_file_array[1] == $result_details)
-							//{
-								$the_file_name = $row2["file_name"];
-					      		$the_video_file = $the_file_name . ".mp4";
-					      		$the_metalog_file = $the_file_name . ".csv";
-					      		$the_stats_file = $the_file_name . "-s.csv";
-					      		$file_name_array = explode("-", $the_file_name);
-					      		$location_name = $file_name_array[1];
-					      		$path_name = "Files/" . $location_name . "/";
-					      		$the_video_path = $path_name . $the_video_file;
-					      		$the_metalog_path = $path_name . $the_metalog_file;
-					      		$the_stats_path = $path_name . $the_stats_file;
-					      		$download_video = "<a href = \"" . $the_video_path . "\">" . $the_video_file . "</a>";
-					      		$download_metalog = "<a href = \"" . $the_metalog_path . "\">" . $the_metalog_file . "</a>";
-					      		$download_stats = "<a href = \"" . $the_stats_path . "\">" . $the_stats_file . "</a>";
-					      		$myfile = fopen($the_stats_path, "r"); //or die("Unable to open file");
-						      	$the_line = fgets($myfile);
-						      	$line_array = explode(",", $the_line);
-						      	$object_total += 1;
-						      	$x_total += $line_array[2];
-						      	$y_total += $line_array[3];
-						      	$size_total += $line_array[4];
-						      	$speed_total += $line_array[5];
-
-
-						      	fclose($myfile);
-							//}
-						}
-					}
-				}
-				$final_object = $object_total;
-				$final_x = $x_total / $object_total;
-				$final_y = $y_total / $object_total;
-				$final_size = $size_total / $object_total;
-				$final_speed = $speed_total / $object_total;
-
-
-				echo
-				"<tr>".
-				"<td>". $final_object ."</td>".
-				"<td>". $final_x ."</td>".
-				"<td>". $final_y ."</td>".
-				"<td>". $final_size ."</td>".
-				"<td>". $final_speed ."</td>".
-				"</tr>";
-				
-			}
-			}
-			?>
-			</tbody>
-			</table>
 		
 			<h3>Search results</h3>
 
@@ -979,71 +871,91 @@ if($_SESSION['username'] == "sadmin")
 				//if($_POST['model_name'])
 				
 				$date_before = $_POST['date'];
-				$time_before = $_POST['time'];
+				$time_before1 = $_POST['time1'];
+				$time_before2 = $_POST['time2'];
 
 				$date_before_array = explode("-", $date_before);
 				$date_after = $date_before_array[0] . $date_before_array[1] . $date_before_array[2];
 
-				$time_before_array = explode(":", $time_before);
-				$time_after = $time_before_array[0] . $time_before_array[1];
+				$time_before_array1 = explode(":", $time_before1);
+				$time_after1 = $time_before_array1[0] . $time_before_array1[1];
 
-				$timeall = $date_after . $time_after . "00";
+				$time_before_array2 = explode(":", $time_before2);
+				$time_after2 = $time_before_array2[0] . $time_before_array2[1];
 
+				$timeall1 = $date_after . $time_after1 . "00";
+				$timeall2 = $date_after . $time_after2 . "00";
 
-				if($date_before && $time_before) // search city only (a)
+				//echo "<h1>" . $time_after1 . " " . $time_after2 . "</h1>";
+
+				if($time_after2 > $time_after1)
 				{
-					$sql = "SELECT * FROM video";
-				}
-				
-
-				
-
-
-				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
-				$resultsql = mysqli_query($connection, $sql);
-				while($row = mysqli_fetch_array($resultsql))
-				{
-					$result_file_name = $row['file_name'];
-					$result_video_id = $row['video_id'];
-					$result_file_name_array = explode("-", $result_file_name);
-					$result_file_time = $result_file_name_array[2];
-					//echo $result_file_time;
-					//echo $timeall . " ";
-
-					if($result_file_time == $timeall)
+					$j = $time_after1 - 100;
+					for($i = $j + 100; $i < $time_after2; $i += 100)
 					{
-						//echo $timeall . " ";
-						$sql2 = "SELECT * FROM video WHERE video_id = $result_video_id";
-						$resultsql2 = mysqli_query($connection, $sql2);
-						while($row2 = mysqli_fetch_array($resultsql2))
+						$time_index = $date_after . "0" . $i . "00";
+						//echo "<h1>" . $time_index . "</h1>";
+
+						if($date_before && $time_before1 && $time_before2) // search city only (a)
 						{
-							//$location_search_file_array = explode("-", $row2['file_name']);
-							//if($location_search_file_array[1] == $result_details)
-							//{
-								$the_file_name = $row2["file_name"];
-					      		$the_video_file = $the_file_name . ".mp4";
-					      		$the_metalog_file = $the_file_name . ".csv";
-					      		$the_stats_file = $the_file_name . "-s.csv";
-					      		$file_name_array = explode("-", $the_file_name);
-					      		$location_name = $file_name_array[1];
-					      		$path_name = "Files/" . $location_name . "/";
-					      		$the_video_path = $path_name . $the_video_file;
-					      		$the_metalog_path = $path_name . $the_metalog_file;
-					      		$the_stats_path = $path_name . $the_stats_file;
-					      		$download_video = "<a href = \"" . $the_video_path . "\">" . $the_video_file . "</a>";
-					      		$download_metalog = "<a href = \"" . $the_metalog_path . "\">" . $the_metalog_file . "</a>";
-					      		$download_stats = "<a href = \"" . $the_stats_path . "\">" . $the_stats_file . "</a>";
-					      		echo
-					      		"<tr>".
-					      		"<td>". $row2["video_id"] ."</td>".
-					      		"<td>". $download_video ."</td>".
-					      		"<td>". $download_metalog ."</td>".
-					      		"<td>". $download_stats ."</td>".
-					      		"</tr>";
-							//}
+							$sql = "SELECT * FROM video";
+							$resultsql = mysqli_query($connection, $sql);
+							while($row = mysqli_fetch_array($resultsql))
+							{
+								$result_file_name = $row['file_name'];
+								$result_video_id = $row['video_id'];
+								$result_file_name_array = explode("-", $result_file_name);
+								$result_file_time = $result_file_name_array[2];
+								//echo "the_result = " . $result_file_time . " ";
+								//echo "the_time = " . $time_index . " ";
+
+								if($result_file_time == $time_index)
+								{
+									//echo $timeall1 . " ";
+									$sql2 = "SELECT * FROM video WHERE video_id = $result_video_id";
+									$resultsql2 = mysqli_query($connection, $sql2);
+									while($row2 = mysqli_fetch_array($resultsql2))
+									{
+										//$location_search_file_array = explode("-", $row2['file_name']);
+										//if($location_search_file_array[1] == $result_details)
+										//{
+											$the_file_name = $row2["file_name"];
+								      		$the_video_file = $the_file_name . ".mp4";
+								      		$the_metalog_file = $the_file_name . ".csv";
+								      		$the_stats_file = $the_file_name . "-s.csv";
+								      		$file_name_array = explode("-", $the_file_name);
+								      		$location_name = $file_name_array[1];
+								      		$path_name = "Files/" . $location_name . "/";
+								      		$the_video_path = $path_name . $the_video_file;
+								      		$the_metalog_path = $path_name . $the_metalog_file;
+								      		$the_stats_path = $path_name . $the_stats_file;
+								      		$download_video = "<a href = \"" . $the_video_path . "\">" . $the_video_file . "</a>";
+								      		$download_metalog = "<a href = \"" . $the_metalog_path . "\">" . $the_metalog_file . "</a>";
+								      		$download_stats = "<a href = \"" . $the_stats_path . "\">" . $the_stats_file . "</a>";
+								      		echo
+								      		"<tr>".
+								      		"<td>". $row2["video_id"] ."</td>".
+								      		"<td>". $download_video ."</td>".
+								      		"<td>". $download_metalog ."</td>".
+								      		"<td>". $download_stats ."</td>".
+								      		"</tr>";
+										//}
+									}
+								}
+							}
 						}
+
+
+
 					}
+					//echo "<h1>Yes</h1>";
 				}
+				//else($time_after1 > $time_after2)
+				//{
+					header("Location: vm.php?error=timefail");
+				//}
+
+				
 				
 			}
 			}
