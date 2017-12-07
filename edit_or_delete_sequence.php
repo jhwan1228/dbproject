@@ -170,7 +170,7 @@ if($action == 1)
 </html>
 
 
-<?
+<?php
 }
 else if($action == 2)
 {

@@ -1464,7 +1464,7 @@ if($_SESSION['username'] == "sadmin")
 
 
 
-<?
+<?php
 
 }
 else
@@ -2010,6 +2010,6 @@ else
 </html>
 
 
-<?
+<?php
 }
 ?>

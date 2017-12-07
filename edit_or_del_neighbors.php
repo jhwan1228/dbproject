@@ -199,7 +199,7 @@ if($action == 1)
 
 
 
-<?
+<?php
 
 }
 else if($action == 2)

@@ -105,7 +105,7 @@ $total_tr = count($tr);
 
 
 
-			<?
+			<?php
 
 				$sqla = "SELECT * FROM sequence WHERE sequence_id = $selected_sid";
 			    $resulta = mysqli_query($connection, $sqla);
@@ -149,7 +149,7 @@ $total_tr = count($tr);
 
 
 
-			<?
+			<?php
 				for($i = 0; $i < $total_tr; $i++)
 				{
 					$nid = $tr[$i];
@@ -212,8 +212,6 @@ $total_tr = count($tr);
 				      echo "<h3>No neighbors</h3>";
 				    }
 				}
-
-
 			?>
 			</tbody>
 			</table>
@@ -222,12 +220,5 @@ $total_tr = count($tr);
 			<a type="submit" href = "location.php" class="btn btn-primary btn-lg">Done</a>
 
 		</div>
-
-
-
-
 	</body>
-
-
-
 </html>
