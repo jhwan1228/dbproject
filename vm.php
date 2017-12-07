@@ -15,10 +15,6 @@ if($_GET['error'] == "timefail")
 if($_SESSION['username'] == "sadmin")
 {
 
-
-
-
-
 ?>
 
 
@@ -1445,24 +1441,9 @@ if($_SESSION['username'] == "sadmin")
     });
 </script>
 
-
 	</body>
 
-
-
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
 
 <?php
 
@@ -1684,9 +1665,7 @@ else
 			      
 			    </tbody>
 			  </table>	
-
-
-
+            
 		</div>
 
 		<div class = "container">

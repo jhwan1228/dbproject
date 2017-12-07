@@ -109,9 +109,7 @@ if(mysqli_num_rows($result2) > 0)
 			    </thead>
 			    <tbody>
 
-
-
-			<?
+			<?php
 
 				$sql = "SELECT * FROM cctv WHERE cctv_id = $cid";
 			    $result = mysqli_query($connection, $sql);
@@ -133,8 +131,6 @@ if(mysqli_num_rows($result2) > 0)
 			    {
 			      echo "<h3>No cctv</h3>";
 			    }
-
-
 			?>
 			</tbody>
 			</table>
@@ -156,10 +152,7 @@ if(mysqli_num_rows($result2) > 0)
 			      </tr>
 			    </thead>
 			    <tbody>
-
-
-
-			<?
+			<?php
 
 				$sql2 = "SELECT location_id FROM captures WHERE cctv_id = $cid";
 				$result2 = mysqli_query($connection, $sql2);
@@ -197,18 +190,11 @@ if(mysqli_num_rows($result2) > 0)
 					}
 					
 				}
-
-
-
 			?>
 			</tbody>
 			</table>
 			<br><br>
 			<a type="submit" href = "cctv.php" class="btn btn-primary btn-lg">Done</a>
 		</div>
-
-
-
 	</body>
-
 </html>

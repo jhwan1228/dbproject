@@ -318,9 +318,6 @@ sadmin html goes here
 
 	</body>
 
-
-
-
 </html>
 
 <?php
@@ -457,9 +454,6 @@ admin html goes here
 
 
 	</body>
-
-
-
 
 </html>
 

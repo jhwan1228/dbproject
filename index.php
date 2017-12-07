@@ -94,16 +94,8 @@ body
 				<h4>Video + Metalog</h4><br>
 				<a class="btn btn-default btn-lg block" href = "login.php">Login</a>
 			</div>
-
-
-			
 		</div>
 		
 		<p id = "name">Park JuHyun, Kim Ji Hwan, Faiz Wong</p>
-
-		
-
 	</body>
-
-
 </html>

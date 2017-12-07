@@ -143,15 +143,10 @@ admin html goes here
         $('.dropdown-toggle').dropdown()
     });
 </script>
-		
-
 
 	</body>
 
 </html>
-
-
-
 
 <?php
 }

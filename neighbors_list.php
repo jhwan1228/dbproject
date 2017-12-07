@@ -125,8 +125,6 @@ $total_tr = count($tr);
 			    {
 			      echo "<h3>No sequence</h3>";
 			    }
-
-
 			?>
 			</tbody>
 			</table>

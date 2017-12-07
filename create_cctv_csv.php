@@ -50,12 +50,6 @@ if(isset($_POST['save']))
     	}
 
     	fclose($myfile);
-
-
-
     }
-
 }
-
-
 ?>

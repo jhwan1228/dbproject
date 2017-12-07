@@ -9,18 +9,19 @@
     include ("auth.php");
     require ("db.php");
 
-    $loc1_id = $_POST['l1_id'];
-    $loc2_id = $_POST['l2_id'];
-    $id1 = intval($loc1_id);
-    $id2 = intval($loc2_id);
+    $loc1_id = $_POST['loc1_id'];
+    $loc2_id = $_POST['loc2_id'];
+    $id1 = $loc1_id;
+    $id2 = $loc2_id;
 
-    $NN = $_POST['neighbors_name'];
+    $NN = $_POST['neigh_name'];
 
-    if(!$NN){
+
+    if($NN==''){
         if($id1==0 || $id2==0){
             header("Location: location.php?error=INDEX");
         }
-        if($id1 === $id2){
+        if($id1 == $id2){
             header("Location: location.php?error=DUP");
         }
 

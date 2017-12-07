@@ -81,7 +81,7 @@ if($action == 1)
 
 
 	<body>
-		
+
 		<nav class = "nav navbar-inverse">
 			<div class = "container-fluid">
 				<div class="collapse navbar-collapse" id=".navbar-collapse">
@@ -92,7 +92,7 @@ if($action == 1)
 				            <li><a href="logout.php">Logout</a></li>
 				          </ul>
 				        </li>
-						
+
 					</ul>
 
 					<ul class = "nav navbar-nav navbar-right">
@@ -109,7 +109,7 @@ if($action == 1)
 		<br>
 
 		<div class = "container">
-			
+
 		<h2>Edit sequence</h2>
 
 		<form class = "form-horizontal col-md-8" action = "edit_sequence.php" method = "post" class = "form-horizontal col-md-8">
@@ -146,7 +146,7 @@ if($action == 1)
 		    	{
 		    		echo "<option value =" . $r['neighbors_id'] . ">" . $r['neighbors_name'] . "</option>";
 		    	}
-		        
+
 		    }
 		    echo "</select>
 		        </div>
@@ -160,13 +160,8 @@ if($action == 1)
 		?>
 		</form>
 
-
 		</div>
-
-
-
 	</body>
-
 </html>
 
 

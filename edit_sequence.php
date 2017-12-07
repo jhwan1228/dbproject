@@ -104,14 +104,4 @@ else
 	header("Location: location.php?error=lol");
 }
 
-
-
-
-
-
-
-
-
-
-
 ?>

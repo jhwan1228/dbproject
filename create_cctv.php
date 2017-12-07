@@ -23,6 +23,4 @@ if($_SESSION['username'] == "sadmin")
 	}
 
 }
-		
-
 ?>

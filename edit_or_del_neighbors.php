@@ -251,14 +251,9 @@ else if($action == 2)
 		}
 	}
 
-	
-
 	if($result1 && $result2)
 	{
 		header("Location: location.php");
 	}
-
-
-
 }
 ?>
