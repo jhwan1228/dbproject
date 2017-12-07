@@ -5,19 +5,19 @@ include("auth.php");
 if($_GET['error'] == "lol")
 {
 	echo "<script type=\"text/javascript\">alert(\"Create sequence failed.\")</script>";
-	
+
 }
 
 if($_GET['error'] == "lul")
 {
 	echo "<script type=\"text/javascript\">alert(\"Create neighbors failed.\")</script>";
-	
+
 }
 
 if($_GET['error'] == "detail_not_unique")
 {
 	echo "<script type=\"text/javascript\">alert(\"Create location failed.\")</script>";
-	
+
 }
 
 
@@ -36,7 +36,7 @@ sadmin html goes here
 
 <html>
 	<head>
-		
+
 		<meta charset="utf-8">
 		<title>Location</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -46,7 +46,7 @@ sadmin html goes here
 	</head>
 
 	<style>
-		
+
 		body {background-color: #F1F1F1;}
 
 		.container
@@ -63,7 +63,7 @@ sadmin html goes here
 	</style>
 
 	<body>
-		
+
 		<nav class = "nav navbar-inverse">
 			<div class = "container-fluid">
 				<div class="collapse navbar-collapse" id=".navbar-collapse">
@@ -74,7 +74,7 @@ sadmin html goes here
 				            <li><a href="logout.php">Logout</a></li>
 				          </ul>
 				        </li>
-						
+
 					</ul>
 
 					<ul class = "nav navbar-nav navbar-right">
@@ -83,7 +83,7 @@ sadmin html goes here
 						<li><a href = "cctv.php">CCTV</a></li>
 						<li class = "active"><a href = "location.php" style = "border-bottom: 3px solid #d200ff !important;">Location</a></li>
 						<li><a href = "vm.php">Video + Metalog</a></li>
-						
+
 					</ul>
 				</div>
 			</div>
@@ -104,29 +104,29 @@ sadmin html goes here
 		  </div>
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Province:</label>
-		    <div class="col-sm-6"> 
+		    <div class="col-sm-6">
 		      <input type="text" class="form-control" name="province" placeholder="Enter province">
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Building name:</label>
-		    <div class="col-sm-6"> 
+		    <div class="col-sm-6">
 		      <input type="text" class="form-control" name="bld_name" placeholder="Enter building name" required/>
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Floor number:</label>
-		    <div class="col-sm-6"> 
+		    <div class="col-sm-6">
 		      <input type="text" class="form-control" name="floor_number" placeholder="Enter floor number">
 		    </div>
 		  </div>
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Details:</label>
-		    <div class="col-sm-6"> 
+		    <div class="col-sm-6">
 		      <input type="text" class="form-control" name="details" placeholder="Enter details" required>
 		    </div>
 		  </div>
-		  <div class="form-group"> 
+		  <div class="form-group">
 		    <div class="col-sm-offset-2 col-sm-10">
 		      <button type="submit" class="btn btn-default">Submit</button>
 		    </div>
@@ -181,7 +181,7 @@ sadmin html goes here
 			  </select>
 			  </div>
 			</div>
-		  <div class="form-group"> 
+		  <div class="form-group">
 		    <div class="col-sm-offset-2 col-sm-10">
 		      <button type="submit" class="btn btn-default">Assign</button>
 		    </div>
@@ -191,8 +191,8 @@ sadmin html goes here
 
 		</div>
 
-		
-		
+
+
 
 		<div class = "container">
 			<h2>Search Location</h2>
@@ -219,10 +219,10 @@ sadmin html goes here
 			  </div>
 			  <button type="submit" name = "search_submit" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
 			</form>
-		
+
 		<br>
 
-		
+
 			<h3>Search results</h3>
 
 			<table class="table table-hover">
@@ -244,7 +244,7 @@ sadmin html goes here
 			if(isset($_GET['go']))
 			{
 				//if($_POST['model_name'])
-				
+
 				$city = $_POST['city'];
 				$province = $_POST['province'];
 				$bld_name = $_POST['bld_name'];
@@ -360,7 +360,7 @@ sadmin html goes here
 					$sql = "SELECT * FROM location WHERE city = '$city' AND province = '$province' AND bld_name = '$bld_name' AND floor_number = '$floor_number' AND details = '$details'";
 				}
 
-				
+
 
 
 				//$sql = "SELECT * FROM cctv WHERE model_name = '$model_name'";
@@ -383,7 +383,7 @@ sadmin html goes here
 			      	"<td>". $result_details ."</td>"
 			      	."</tr>";
 				}
-				
+
 			}
 			}
 			?>
@@ -409,8 +409,8 @@ sadmin html goes here
 		<div class = "container">
 
 			<h3>Location table</h3>
-			
-			  <p>The .table-hover class enables a hover state on table rows:</p>            
+
+			  <p>The .table-hover class enables a hover state on table rows:</p>
 			  <table class="table table-hover">
 			    <thead>
 			      <tr>
@@ -423,7 +423,7 @@ sadmin html goes here
 			      </tr>
 			    </thead>
 			    <tbody>
-			      
+
 
 			    <?php
 			      require("db.php");
@@ -454,7 +454,7 @@ sadmin html goes here
 
 			      ?>
 
-			      
+
 			    </tbody>
 			  </table>
 		</div>
@@ -507,11 +507,11 @@ sadmin html goes here
 			</div>
 			<div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Neighbors name:</label>
-		    <div class="col-sm-6"> 
+		    <div class="col-sm-6">
 		      <input type="text" class="form-control" name="neighbors_name" placeholder="Enter neighbors name" required>
 		    </div>
 		  </div>
-		  <div class="form-group"> 
+		  <div class="form-group">
 		    <div class="col-sm-offset-2 col-sm-10">
 		      <button type="submit" class="btn btn-default">Create</button>
 		    </div>
@@ -526,8 +526,8 @@ sadmin html goes here
 		<div class = "container">
 
 			<h2>Neighbors table</h2>
-			
-			  <p>The .table-hover class enables a hover state on table rows:</p>            
+
+			  <p>The .table-hover class enables a hover state on table rows:</p>
 			  <table class="table table-hover">
 			    <thead>
 			      <tr>
@@ -539,7 +539,7 @@ sadmin html goes here
 			      </tr>
 			    </thead>
 			    <tbody>
-			      
+
 
 			    <?php
 			      require("db.php");
@@ -611,7 +611,7 @@ sadmin html goes here
 
 			      ?>
 
-			      
+
 			    </tbody>
 			  </table>
 		</div>
@@ -626,7 +626,7 @@ function showUser(str) {
     if (str == "") {
         document.getElementById("txtHint").innerHTML = "";
         return;
-    } else { 
+    } else {
         if (window.XMLHttpRequest) {
             // code for IE7+, Firefox, Chrome, Opera, Safari
             xmlhttp = new XMLHttpRequest();
@@ -651,7 +651,7 @@ function showUser(str) {
 		<div class = "container">
 
 		<h2>Create sequence</h2>
-			
+
 		<form class = "form-horizontal">
 			<div class = "form-group">
 				<label for="inputEmail3" class="col-sm-2 control-label">How many?</label>
@@ -665,14 +665,14 @@ function showUser(str) {
 
 
 		</div>
-		
+
 
 
 		<div class = "container">
-		
+
 		<h2>Sequence table</h2>
-			
-			  <p>The .table-hover class enables a hover state on table rows:</p>            
+
+			  <p>The .table-hover class enables a hover state on table rows:</p>
 			  <table class="table table-hover">
 			    <thead>
 			      <tr>
@@ -683,7 +683,7 @@ function showUser(str) {
 			      </tr>
 			    </thead>
 			    <tbody>
-			      
+
 
 			    <?php
 			      require("db.php");
@@ -720,7 +720,7 @@ function showUser(str) {
 
 			      ?>
 
-			      
+
 			    </tbody>
 			  </table>
 
