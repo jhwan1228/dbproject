@@ -120,7 +120,7 @@ require('db.php');
 
 		<div class = "container">
 
-		<h2>Edit admin</h2>
+		<h2>Edit Location</h2>
 
 		<form class="form-horizontal" action = "edit_location.php" method = "post">
 			<input type = "hidden" name = "location_id" value= <?php echo "\"". $location_id ."\""?>>
@@ -133,7 +133,7 @@ require('db.php');
 		  <div class="form-group">
 		    <label class="control-label col-sm-2">Province:</label>
 		    <div class="col-sm-6"> 
-		      <input type="password" class="form-control" name="province" value= <?php echo "\"". $province ."\""?>>
+		      <input type="text" class="form-control" name="province" value= <?php echo "\"". $province ."\""?>>
 		    </div>
 		  </div>
 		  <div class="form-group">

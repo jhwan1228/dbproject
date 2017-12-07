@@ -158,7 +158,7 @@ sadmin html goes here
 			  </div>
 			  <div class="form-group">
 			    <label>Phone number:</label>
-			    <input type="text" class="form-control" name="phone_number">
+			    <input type="text" class="form-control" id="id_phone_number" name="phone_number">
 			  </div>
 			  <button type="submit" name = "search_submit" class="btn btn-default" style = "margin-left: 5px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Search</button>
 			</form>

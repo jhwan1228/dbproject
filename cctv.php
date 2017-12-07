@@ -323,7 +323,7 @@ sadmin html goes here
 
 </html>
 
-<?
+<?php
 }
 
 else
@@ -433,6 +433,7 @@ admin html goes here
 			      else
 			      {
 			      	echo "<h3>No cctv</h3>";
+
 			      }
 			      mysqli_close($connection);
 
@@ -463,7 +464,7 @@ admin html goes here
 </html>
 
 
-<?
+<?php
 }
 ?>
 

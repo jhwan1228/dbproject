@@ -17,13 +17,13 @@ if($_GET['error'] == "detail_not_unique")
 	echo "<script type=\"text/javascript\">alert(\"Create location failed.\")</script>";
 }
 
-if($_GET['error'] == "INDEX") {
+if(isset($_GET['error4'])) {
     echo "<script type=\"text/javascript\">alert(\"Please select specific location.\")</script>";
 }
-if($_GET['error'] == "DUP") {
+if(isset($_GET['error5'])) {
     echo "<script type=\"text/javascript\">alert(\"Location 1, 2 must be different.\")</script>";
 }
-if($_GET['error'] == "CANT") {
+if(isset($_GET['error6'])) {
     echo "<script type=\"text/javascript\">alert(\"CAN'T find the neighbor.\")</script>";
 }
 
@@ -542,7 +542,7 @@ sadmin html goes here
                 <div class="form-group">
                     <label class = "control-label col-sm-2" for="sel1">location 1:</label>
                     <div class = "col-sm-3">
-                        <select class="form-control" name="l1_id">
+                        <select class="form-control" name="loc1_id">
                             <option value = "0" >----------------</option>
                             <?php
                                 require("db.php");
@@ -559,7 +559,7 @@ sadmin html goes here
                 <div class="form-group">
                     <label class = "control-label col-sm-2" for="sel2">location 2:</label>
                     <div class = "col-sm-3">
-                        <select class="form-control" name="l2_id">
+                        <select class="form-control" name="loc2_id">
                             <option value = "0" >----------------</option>
                             <?php
                                 require("db.php");
@@ -578,13 +578,13 @@ sadmin html goes here
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="neighbors_name">Neighbors name:</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" name="neighbors_name" placeholder="Enter neighbors name">
+                        <input type="text" class="form-control" name="neigh_name" placeholder="Enter neighbors name">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default">Create</button>
+                        <button type="submit" class="btn btn-default">Search</button>
                     </div>
                 </div>
             </form>
@@ -597,6 +597,8 @@ sadmin html goes here
                     $row = $_SESSION["row"];
                     echo "<p>".$row['id1']."</p>";
                     echo "<p>".$row['id2']."</p>";
+
+                    unset($_SESSION["row"]);
                 } elseif(isset($_SESSION["arr"])) {
                     echo "<p>2nd case</p>";
                     $arr = $_SESSION["arr"];
@@ -605,6 +607,8 @@ sadmin html goes here
                         echo "<p>".$ele['location_id']."</p>";
                         echo "<p>".$ele['neighbors_id']."</p>";
                     }
+
+                    unset($_SESSION["arr"]);
                 } elseif(isset($_SESSION["data"])){
                     echo "<p>3rd case</p>";
                     $data = $_SESSION["data"];
@@ -612,6 +616,8 @@ sadmin html goes here
                     echo "<p>".$data['id2']."</p>";
                     echo "<p>".$data['id3']."</p>";
                     echo "<p>".$data['id4']."</p>";
+
+                    unset($_SESSION["data"]);
                 } else{
                     echo "<p>please insert your data.</p>";
                 }
@@ -867,7 +873,7 @@ function reset()
 
 
 
-<?
+<?php
 }
 
 else
@@ -1088,6 +1094,6 @@ admin html goes here
 </html>
 
 
-<?
+<?php
 }
 ?>
