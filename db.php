@@ -123,7 +123,6 @@ $table9 = "
 CREATE TABLE if NOT EXISTS metalog(
 video_id INT NOT NULL,
 time_start VARCHAR(100),
-time_end VARCHAR(100),
 FOREIGN KEY(video_id) REFERENCES video(video_id)
 )
 
