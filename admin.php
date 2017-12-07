@@ -23,14 +23,32 @@ sadmin html goes here
 
 <html>
 	<head>
-		
+
 		<meta charset="utf-8">
 		<title>Home</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		
+
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<!--link rel = "stylesheet" href = "style.css" /-->
 
+        <script>
+            $(document).ready(function() {
+                $('input#id_phone_number').keyup(function(ev) {
+                    var key = ev.which;
+                    if (key < 48 || key > 57 || key != 45) {
+                        ev.preventDefault();
+                    }
+
+                    if (this.value.length > 13) {
+                        this.value = this.value.slice(0, -1);
+                        return;
+                    }
+
+                    this.value = this.value.replace(/^(\d{3})(\d)/, '$1-$2')
+                        .replace(/^(\d{3}-\d{4})(\d)/, '$1-$2');
+                });
+            });
+        </script>
 	</head>
 	<style>
 		
@@ -108,7 +126,7 @@ sadmin html goes here
 		  <div class="form-group">
 		    <label class="control-label col-sm-2" for="pwd">Phone number:</label>
 		    <div class="col-sm-6"> 
-		      <input type="text" class="form-control" name="phone_number" placeholder="Phone number: 01*-********">
+		      <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Phone number: ***-****-****">
 		    </div>
 		  </div>
 		  <div class="form-group"> 

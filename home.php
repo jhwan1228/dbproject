@@ -77,7 +77,7 @@ sadmin html goes here
 </html>
 
 
-<?
+<?php
 }
 
 else
@@ -153,6 +153,6 @@ admin html goes here
 
 
 
-<?
+<?php
 }
 ?>
