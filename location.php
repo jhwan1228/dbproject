@@ -5,19 +5,26 @@ include("auth.php");
 if($_GET['error'] == "lol")
 {
 	echo "<script type=\"text/javascript\">alert(\"Create sequence failed.\")</script>";
-
 }
 
 if($_GET['error'] == "lul")
 {
 	echo "<script type=\"text/javascript\">alert(\"Create neighbors failed.\")</script>";
-
 }
 
 if($_GET['error'] == "detail_not_unique")
 {
 	echo "<script type=\"text/javascript\">alert(\"Create location failed.\")</script>";
+}
 
+if($_GET['error'] == "INDEX") {
+    echo "<script type=\"text/javascript\">alert(\"Please select specific location.\")</script>";
+}
+if($_GET['error'] == "DUP") {
+    echo "<script type=\"text/javascript\">alert(\"Location 1, 2 must be different.\")</script>";
+}
+if($_GET['error'] == "CANT") {
+    echo "<script type=\"text/javascript\">alert(\"CAN'T find the neighbor.\")</script>";
 }
 
 
@@ -190,9 +197,6 @@ sadmin html goes here
 
 
 		</div>
-
-
-
 
 		<div class = "container">
 			<h2>Search Location</h2>
@@ -518,8 +522,100 @@ sadmin html goes here
 		  </div>
 		</form>
 
-
 		</div>
+
+
+        <!-- made by 주현
+            neighbor 검색기능
+        -->
+        <div class = "container">
+            <h2>Search Neighbors</h2>
+
+            <form class="form-horizontal" action = "neighbor_search.php" method = "post">
+                <div class="form-group">
+                    <label class = "control-label col-sm-2" for="sel1">location 1:</label>
+                    <div class = "col-sm-3">
+                        <select class="form-control" name="l1_id">
+                            <option value = "0" >----------------</option>
+                            <?php
+                                require("db.php");
+
+                                $query = "SELECT * FROM location";
+                                $result = mysqli_query($connection, $query);
+                                while($r = mysqli_fetch_array($result)) {
+                                    echo "<option value =" . $r['location_id'] . ">" . $r['details'] . "</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class = "control-label col-sm-2" for="sel2">location 2:</label>
+                    <div class = "col-sm-3">
+                        <select class="form-control" name="l2_id">
+                            <option value = "0" >----------------</option>
+                            <?php
+                                require("db.php");
+
+                                $query = "SELECT * FROM location";
+                                $result = mysqli_query($connection, $query);
+                                while($r = mysqli_fetch_array($result)) {
+                                    echo "<option value =" . $r['location_id'] . ">" . $r['details'] . "</option>";
+                                }
+
+                            ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="neighbors_name">Neighbors name:</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="neighbors_name" placeholder="Enter neighbors name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Create</button>
+                    </div>
+                </div>
+            </form>
+
+            <br>
+
+            <?php
+                if(isset($_SESSION["row"])) {
+                    echo "<p>1st case</p>";
+                    $row = $_SESSION["row"];
+                    echo "<p>".$row['id1']."</p>";
+                    echo "<p>".$row['id2']."</p>";
+                } elseif(isset($_SESSION["arr"])) {
+                    echo "<p>2nd case</p>";
+                    $arr = $_SESSION["arr"];
+                    for($i=0; $i<count($arr); $i++){
+                        $ele = $arr[$i];
+                        echo "<p>".$ele['location_id']."</p>";
+                        echo "<p>".$ele['neighbors_id']."</p>";
+                    }
+                } elseif(isset($_SESSION["data"])){
+                    echo "<p>3rd case</p>";
+                    $data = $_SESSION["data"];
+                    echo "<p>".$data['id1']."</p>";
+                    echo "<p>".$data['id2']."</p>";
+                    echo "<p>".$data['id3']."</p>";
+                    echo "<p>".$data['id4']."</p>";
+                } else{
+                    echo "<p>please insert your data.</p>";
+                }
+            ?>
+
+
+
+        </div>
+
+        <!-- neighbor 검색 완료. -->
+
 
 
 

@@ -9,7 +9,7 @@
 
 		//session_start();
 		require('db.php');
-		
+
 
 		//if form is submitted, insert values into the database
 		if(isset($_POST['username']))
